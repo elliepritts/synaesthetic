@@ -110,6 +110,7 @@ footer {
 .level-open footer {
     background: #000;
     opacity: 1;
+    margin-bottom: .5em;
 }
 
 footer h1 { display: none; color: #fff; }
@@ -143,12 +144,15 @@ footer a:hover {
     vertical-align: 20%;
 }
 
-#level {
-    position: relative;
+#level .instructions:before {
+    display: block;
+    background: rgb(222, 103, 159);
+    color: #fff;
+    padding: 1em;
+    text-align: center;
+    content: 'strike a chord';
 }
-#level svg {
-    margin: 0 auto;
-}
+#level svg {}
 #level svg path:hover {
     stroke: #fff;
     stroke-width: 2;

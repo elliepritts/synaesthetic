@@ -18,6 +18,12 @@ var GAME = (function() {
                 url: './assets/svg/' + levels[state[0] - 1] + '/' + state[1] + '.svg',
                 success: function(data) {
                     $('#level').html(document.importNode(data.documentElement, true));
+                    if ( 1 === state[0] && state[0] === state[1] ) {
+                        $('<div class="instructions"/>').prependTo('#level')
+                            .delay(2200).animate({ opacity: 0, height: 0 }, function() {
+                                $(this).remove();
+                            });
+                    }
                 }
             })
         }
