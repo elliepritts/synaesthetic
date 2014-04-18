@@ -1,0 +1,114 @@
+@import url(http://fonts.googleapis.com/css?family=Pompiere|Lato:200,300);
+
+* { -moz-box-sizing: border-box; box-sizing: border-box; }
+html, body, div, span, h1, h2, h3, h4, h5, h6, p, a, img, ol, ul, li, button { margin: 0; padding: 0; border: 0; outline: 0; font-size: 100%; vertical-align: baseline; background: transparent; }
+article, aside, footer, header, nav, section { display: block; }
+ol, ul { list-style: none; }
+a { text-decoration: none; }
+:focus { outline: 0; }
+button { background-color: transparent; color: inherit; cursor: pointer; display: inline-block; font-family: inherit; font-size: inherit; font-weight: inherit; line-height: inherit; position: relative; text-align: center; text-transform: inherit; vertical-align: middle; white-space: nowrap; }
+img { display: block; max-width: 100%; }
+html, body { height: 100%; }
+
+body {
+    background: url(../svg/background.svg) top center, linear-gradient(to bottom, rgba(255,255,255,.1) 0%, rgba(0,0,0,.85) 100%);
+    background-size: cover;
+    font: 20px 'Lato', sans-serif;
+    color: #fff;
+    text-transform: uppercase;
+    text-rendering: optimizeLegibility;
+}
+
+#start {
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    text-align: center;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+#start button {
+    line-height: 1;
+    border: 1px solid #fff;
+    padding: 1em 1.5em;
+    background: rgba(184, 103, 146, .4);
+    letter-spacing: .1em;
+    -webkit-transition: 250ms;
+    transition: 250ms;
+}
+#start button:hover {
+    background: rgba(222, 103, 159, .8);
+}
+
+h1 {
+    font: normal 3em 'Pompiere';
+    margin: .15em 0 .2em;
+    letter-spacing: .2em;
+    text-shadow: 0 0 1em rgba(0, 0, 0, .85);
+}
+h3 {
+    font-weight: 100;
+    overflow: hidden;
+    position: relative;
+    letter-spacing: .02em;
+    text-shadow: 0 0 1em rgba(0, 0, 0, .85);
+}
+
+h3:before,
+h3:after {
+    display: block;
+    content: '';
+    position: absolute;
+    height: 1px;
+    top: 50%;
+    width: 20%;
+    background: #fff;
+}
+h3:before {
+    left: 0;
+}
+h3:after {
+    right: 0;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    left: 0; right: 0;
+    opacity: .5;
+    background: rgba(0, 0, 0, .85);
+    font-size: .85em;
+    padding: .5em 1em;
+    color: #aaa;
+    text-align: center;
+}
+
+footer, footer * {
+    -webkit-transition: 250ms;
+    transition: 250ms;
+}
+
+footer:hover {
+    opacity: 1;
+}
+
+footer a {
+    display: inline-block;
+    color: #aaa;
+    margin-left: -4px;
+    padding: 0 .25em;
+}
+
+footer a:hover {
+    color: #eee;
+}
+
+.altj:before {
+    content: '∆';
+    display: inline-block;
+    padding: 0 .5em 0 .25em;
+    font-size: .65em;
+    vertical-align: 20%;
+}
