@@ -22,7 +22,7 @@ button {
     line-height: 1;
     border: 1px solid #fff;
     padding: 1em 1.5em;
-    background: rgba(184, 103, 146, .4);
+    background: rgba(184, 103, 146, .6);
     letter-spacing: .1em;
     -webkit-transition: 250ms;
     transition: 250ms;
@@ -103,6 +103,16 @@ h3:after { right: 0; }
     font-size: 1em;
     line-height: 1.3;
     font:'Lato', sans-serif;
+}
+
+#about .photo {
+    position: relative;
+    border-radius: 50%;
+    height: 30%;
+    width: 30%;
+    display: inline-block;
+    vertical-align: middle;
+    padding-bottom: 1em
 }
 
 footer {
