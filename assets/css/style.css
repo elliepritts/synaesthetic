@@ -81,6 +81,7 @@ h3:after { right: 0; }
 }
 
 #about {
+    display: none;
     opacity: 0;
     position: fixed;
     top: 0; bottom: 0;
