@@ -35,7 +35,24 @@ $(function() {
         GAME.state(1, 1).level();
     });
 
+    // Do some crazy stuff to make about fade in and out
+    // @TODO: is there a beter way to do this?
+    // The transitionend listener and propagation stopper and
+    // the offset width things seem ridiculously hacked together LOL
     $('.js-about-toggle').click(function() {
-        $('#about').fadeToggle();
+        if ( $('#about').hasClass('open') ) {
+            $('#about').removeClass('open')
+                .one('transitionend', function() {
+                    $(this).hide().off('transitionend', '*');
+                    this.offsetWidth = this.offsetWidth;
+                })
+                .on('transitionend', '*', function(e) {
+                    e.stopPropagation();
+                });
+        } else {
+            $('#about').show();
+            $('#about')[0].offsetWidth = $('#about')[0].offsetWidth;
+            $('#about').addClass('open');
+        }
     });
 });
