@@ -98,7 +98,7 @@ h3:after { right: 0; }
     opacity: 1;
 }
 #about .content {
-    max-width: 640px;
+    max-width: 900px;
     margin: 40px auto;
     text-align: center;
 }
@@ -109,7 +109,7 @@ h3:after { right: 0; }
 }
 #about p {
     text-transform: none;
-    text-align: justify;
+    text-align: center;
     font-size: 1em;
     line-height: 1.3;
     font:'Lato', sans-serif;
@@ -121,8 +121,8 @@ h3:after { right: 0; }
 #about .photo {
     position: relative;
     border-radius: 50%;
-    height: 30%;
-    width: 30%;
+    height: 25%;
+    width: 25%;
     display: inline-block;
     vertical-align: middle;
     padding-bottom: 1em;
