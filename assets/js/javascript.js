@@ -6,6 +6,7 @@ var GAME = (function() {
             'chicago': [[31,23,40]],
             'vic': [[101,99,112]]
         },
+        notes,
 
         _scaleSVG = function() {
             $('#level svg').each(function() {
@@ -25,12 +26,31 @@ var GAME = (function() {
             return messages[ Math.floor(Math.random() * messages.length) ];
         },
 
+        _generateNotes = function() {
+            var temp = {},
+                index = 0,
+                splitAt;
+
+            $('#level path').each(function() {
+                var color = _pathInfo(this).color;
+                isNaN(color) || (temp[color] = temp[color] || true);
+            });
+
+            splitAt = Math.floor(Object.keys(temp).length / 16);
+            notes = {};
+
+            $.each(temp, function(color) {
+                var i = Math.floor(index++ / splitAt);
+                (notes[i] = (notes[i] || [])).push(color);
+            });
+        },
+
         _pathInfo = function(path) {
             var $path = $(path);
 
             return $path.data('synaesthetic') || $path.data('synaesthetic', {
                 index: $path.parent().children().index($path),
-                color: parseInt($path.attr('fill').slice(1), 16)
+                color: parseInt(($path.attr('fill') || '').slice(1), 16)
             }).data('synaesthetic');
         },
         _pathEnter = function(e) {
@@ -64,7 +84,7 @@ var GAME = (function() {
         },
         advance: function() {
             state[1]++ > 3 && ((state[1] = 0) || (state[0] = 1));
-            $('<div class="notice"/>').text(_successMessage()).insertBefore('#level');
+            $('<div class="notice"/>').text(_successMessage).insertBefore('#level');
             return GAME.level();
         },
         level: function() {
@@ -72,11 +92,13 @@ var GAME = (function() {
 
             $('body').addClass('level-open');
 
-            $.when(svg, $('#level svg').fadeOut()).done(function(svgDfr, animationDfr) {
-                $('#level').hide().html(document.importNode(svgDfr[0].documentElement, true)).fadeIn();
-            });
+            $.when(svg, $('#level').fadeOut()).done(function(svgDfr, animationDfr) {
+                $('#level').html(document.importNode(svgDfr[0].documentElement, true)).fadeIn()
+                    .find('path').each(function() {_pathInfo(this) });
 
-            svg.done(_scaleSVG);
+                _generateNotes();
+                _scaleSVG();
+            });
         },
         setup: function() {
             $(window).resize(_scaleSVG);
