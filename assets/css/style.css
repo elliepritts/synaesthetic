@@ -134,7 +134,7 @@ footer {
 .level-open footer {
     background: #000;
     opacity: 1;
-    margin-bottom: .5em;
+    padding-bottom: 1.5em;
     position: relative;
     z-index: 2;
 }
@@ -170,7 +170,7 @@ footer a:hover {
     vertical-align: 20%;
 }
 
-#level .instructions {
+.instructions {
     display: block;
     position: absolute;
     left: 0; right: 0;
@@ -182,8 +182,8 @@ footer a:hover {
     -webkit-animation: 400ms 2200ms slide-up forwards;
     animation: 400ms 2200ms slide-up forwards;
 }
-@-webkit-keyframes slide-up { 100% { -webkit-transform: translateY(-100%) translateY(-.5em); opacity: .4; } }
-@keyframes slide-up { 100% { transform: translateY(-100%) translateY(-.5em); opacity: .4; } }
+@-webkit-keyframes slide-up { 100% { -webkit-transform: translateY(-100%); opacity: .4; } }
+@keyframes slide-up { 100% { transform: translateY(-100%); opacity: .4; } }
 
 
 #level svg {}

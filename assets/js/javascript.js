@@ -11,6 +11,16 @@ var GAME = (function() {
                 var i = $(this), w = i.attr('width'), h = i.attr('height'), cw = i.parents('#level').width();
                 i.css({width: cw, height: Math.floor(h / (w / cw))});
             });
+        },
+
+        _pathEnter = function(e) {
+            console.log('ENTERING: ', this);
+        },
+        _pathLeave = function(e) {
+            console.log('LEAVING: ', this);
+        },
+        _pathClick = function(e) {
+            console.log('CLICKING: ', this);
         };
 
     return {
@@ -19,28 +29,33 @@ var GAME = (function() {
             return GAME;
         },
         level: function() {
+            var svg = $.ajax('./assets/svg/' + levels[state[0] - 1] + '/' + state[1] + '.svg');
+
             $('body').addClass('level-open');
 
-            $.ajax({
-                url: './assets/svg/' + levels[state[0] - 1] + '/' + state[1] + '.svg',
-                success: function(data) {
-                    $('#level').html(document.importNode(data.documentElement, true));
-                    _updateLevelSize();
-                    if ( 1 === state[0] && state[0] === state[1] ) {
-                        $('<div class="instructions"/>').text('strike a chord').prependTo('#level')
-                    }
-                }
-            })
+            svg.done(function(data) {
+                $('#level').html(document.importNode(data.documentElement, true));
+            });
+
+            svg.done(_updateLevelSize);
         },
-        handleResize: function() {
-            _updateLevelSize();
+        setup: function() {
+            $(window).resize(_updateLevelSize);
+            $('#level')
+                .on('mouseenter', 'path', _pathEnter)
+                .on('mouseleave', 'path', _pathLeave)
+                .on('click',      'path', _pathClick);
+
+            $('<div class="instructions"/>').text('strike a chord').insertBefore('#level');
+
+            return GAME;
         }
     }
 })();
 
 $(function() {
     $('#start button').click(function() {
-        GAME.state(1, 1).level();
+        GAME.setup().state(1, 1).level();
     });
 
     // Do some crazy stuff to make about fade in and out
@@ -63,6 +78,4 @@ $(function() {
             $('#about').addClass('open');
         }
     });
-
-    $(window).resize(GAME.handleResize);
 });
