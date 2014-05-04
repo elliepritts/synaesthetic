@@ -14,6 +14,17 @@ var GAME = (function() {
             });
         },
 
+        _successMessage = function() {
+            var messages = [
+                'nice one!',
+                'sweet!',
+                'very nice',
+                'amazing!',
+                'good job!'
+            ];
+            return messages[ Math.floor(Math.random() * messages.length) ];
+        },
+
         _pathInfo = function(path) {
             var $path = $(path);
 
@@ -53,9 +64,7 @@ var GAME = (function() {
         },
         advance: function() {
             state[1]++ > 3 && ((state[1] = 0) || (state[0] = 1));
-            $('<div class="notice"/>').text((function(m,a) { return a[m.floor(m.random()*a.length)]; })(Math,
-                ['nice one!', 'sweet!', 'very nice', 'amazing!', 'good job!']
-            )).insertBefore('#level');
+            $('<div class="notice"/>').text(_successMessage()).insertBefore('#level');
             return GAME.level();
         },
         level: function() {
