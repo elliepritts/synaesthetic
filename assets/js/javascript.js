@@ -4,6 +4,13 @@ var GAME = (function() {
         levels = ['chicago'],
         answers = {
             'chicago': [1,2,3]
+        },
+
+        _updateLevelSize = function() {
+            $('#level svg').each(function() {
+                var i = $(this), w = i.attr('width'), h = i.attr('height'), cw = i.parents('#level').width();
+                i.css({width: cw, height: Math.floor(h / (w / cw))});
+            });
         };
 
     return {
@@ -18,14 +25,15 @@ var GAME = (function() {
                 url: './assets/svg/' + levels[state[0] - 1] + '/' + state[1] + '.svg',
                 success: function(data) {
                     $('#level').html(document.importNode(data.documentElement, true));
+                    _updateLevelSize();
                     if ( 1 === state[0] && state[0] === state[1] ) {
-                        $('<div class="instructions"/>').prependTo('#level')
-                            .delay(2200).animate({ opacity: 0, height: 0 }, function() {
-                                $(this).remove();
-                            });
+                        $('<div class="instructions"/>').text('strike a chord').prependTo('#level')
                     }
                 }
             })
+        },
+        handleResize: function() {
+            _updateLevelSize();
         }
     }
 })();
@@ -55,4 +63,6 @@ $(function() {
             $('#about').addClass('open');
         }
     });
+
+    $(window).resize(GAME.handleResize);
 });

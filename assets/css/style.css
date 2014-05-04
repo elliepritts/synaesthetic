@@ -65,8 +65,10 @@ h3:after { right: 0; }
     height: calc(100% - 1.9em);
     -webkit-transition: 500ms height, 750ms opacity;
     transition: 500ms height, 750ms opacity;
+    overflow: hidden;
 }
 .level-open #start {
+    position: relative;
     height: 0;
     opacity: 0;
 }
@@ -131,6 +133,8 @@ footer {
     background: #000;
     opacity: 1;
     margin-bottom: .5em;
+    position: relative;
+    z-index: 2;
 }
 
 footer h1 { display: none; color: #fff; }
@@ -164,14 +168,22 @@ footer a:hover {
     vertical-align: 20%;
 }
 
-#level .instructions:before {
+#level .instructions {
     display: block;
-    background: rgb(222, 103, 159);
+    position: absolute;
+    left: 0; right: 0;
+    background: rgba(222, 103, 159, .65);
     color: #fff;
-    padding: 1em;
+    padding: 1em 0;
     text-align: center;
-    content: 'strike a chord';
+    z-index: 1;
+    -webkit-animation: 400ms 2200ms slide-up forwards;
+    animation: 400ms 2200ms slide-up forwards;
 }
+@-webkit-keyframes slide-up { 100% { -webkit-transform: translateY(-100%) translateY(-.5em); opacity: .4; } }
+@keyframes slide-up { 100% { transform: translateY(-100%) translateY(-.5em); opacity: .4; } }
+
+
 #level svg {}
 #level svg path:hover {
     stroke: #fff;
