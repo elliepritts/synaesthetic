@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Lato:200,300|Source+Code+Pro:200,300);
+@import url(http://fonts.googleapis.com/css?family=Source+Code+Pro:300|Lato:200,300);
 
 * { -moz-box-sizing: border-box; box-sizing: border-box; }
 html, body, div, span, h1, h2, h3, h4, h5, h6, p, a, img, ol, ul, li, button { margin: 0; padding: 0; border: 0; outline: 0; font-size: 100%; vertical-align: baseline; background: transparent; }
@@ -32,7 +32,7 @@ button:hover {
 }
 
 h1 {
-    font: normal 3em 'Source Code Pro' ;
+    font: 300 3em 'Source Code Pro' ;
     margin: .15em 0 .2em;
     letter-spacing: .2em;
     text-shadow: 0 0 1em rgba(0, 0, 0, .85);
