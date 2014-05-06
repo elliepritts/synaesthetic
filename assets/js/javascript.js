@@ -6,7 +6,7 @@ var GAME = (function() {
             'chicago': [[31,23,40]],
             'vic': [[101,99,112]]
         },
-        notes,
+        notes = {},
 
         _scaleSVG = function() {
             $('#level svg').each(function() {
@@ -26,41 +26,40 @@ var GAME = (function() {
             return messages[ Math.floor(Math.random() * messages.length) ];
         },
 
-        _generateNotes = function() {
-            var temp = {},
-                index = 0,
-                splitAt;
-
+        _generatePathInfo = function() {
             $('#level path').each(function() {
-                var color = _pathInfo(this).color;
-                isNaN(color) || (temp[color] = temp[color] || true);
+                var $path = $(this),
+                    index = $path.parent().children().index($path),
+                    color = parseInt(($path.attr('fill') || '').slice(1), 16) || false;
+
+                $path.data('synaesthetic', {
+                    index: index,
+                    color: color
+                });
+
+                if ( color ) {
+                    notes[color] = 0;
+                }
             });
 
-            splitAt = Math.floor(Object.keys(temp).length / 16);
-            notes = {};
+            var index = 0,
+                splitAt = Math.floor(Object.keys(notes).length / 16);
 
-            $.each(temp, function(color) {
-                var i = Math.floor(index++ / splitAt);
-                (notes[i] = (notes[i] || [])).push(color);
+            $.each(notes, function(color) {
+                notes[color] = Math.floor(index++ / splitAt);
             });
         },
 
-        _pathInfo = function(path) {
-            var $path = $(path);
-
-            return $path.data('synaesthetic') || $path.data('synaesthetic', {
-                index: $path.parent().children().index($path),
-                color: parseInt(($path.attr('fill') || '').slice(1), 16)
-            }).data('synaesthetic');
-        },
         _pathEnter = function(e) {
-            console.log('ENTERING: ', _pathInfo(this));
+            var info = $(this).data('synaesthetic');
+            console.log('ENTERING: ', info);
         },
         _pathLeave = function(e) {
-            console.log('LEAVING: ', _pathInfo(this));
+            var info = $(this).data('synaesthetic');
+            console.log('LEAVING: ', info);
         },
         _pathClick = function(e) {
-            var info = _pathInfo(this),
+            var info = $(this).data('synaesthetic'),
                 currentAnswer = answers[levels[state[0] - 1]][state[1] - 1];
 
             console.log('CLICKING: ', info);
@@ -93,10 +92,9 @@ var GAME = (function() {
             $('body').addClass('level-open');
 
             $.when(svg, $('#level').fadeOut()).done(function(svgDfr, animationDfr) {
-                $('#level').html(document.importNode(svgDfr[0].documentElement, true)).fadeIn()
-                    .find('path').each(function() {_pathInfo(this) });
+                $('#level').html(document.importNode(svgDfr[0].documentElement, true)).fadeIn();
 
-                _generateNotes();
+                _generatePathInfo();
                 _scaleSVG();
             });
         },
