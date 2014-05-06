@@ -8,6 +8,8 @@ var GAME = (function() {
         },
         notes = {},
 
+        SYNTH = T('OscGen', { env: T('perc', { msec: timbre.timevalue('bpm120 l8'), ar: true }) }).play(),
+
         _scaleSVG = function() {
             $('#level svg').each(function() {
                 var i = $(this), w = i.attr('width'), h = i.attr('height'), cw = i.parents('#level').width();
@@ -46,17 +48,20 @@ var GAME = (function() {
                 splitAt = Math.floor(Object.keys(notes).length / 16);
 
             $.each(notes, function(color) {
-                notes[color] = Math.floor(index++ / splitAt);
+                notes[color] = 60 + Math.floor(index++ / splitAt);
             });
         },
 
         _pathEnter = function(e) {
             var info = $(this).data('synaesthetic');
             console.log('ENTERING: ', info);
+            console.log('PLAY NOTE: ', notes[info.color]);
+            SYNTH.noteOn( notes[info.color], 60 );
         },
         _pathLeave = function(e) {
             var info = $(this).data('synaesthetic');
             console.log('LEAVING: ', info);
+            console.log('------------------------------------------------------------');
         },
         _pathClick = function(e) {
             var info = $(this).data('synaesthetic'),
