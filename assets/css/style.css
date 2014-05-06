@@ -134,9 +134,22 @@ footer {
 .level-open footer {
     background: #000;
     opacity: 1;
-    padding-bottom: 1.5em;
     position: relative;
     z-index: 2;
+}
+
+.level-open footer div {
+    -webkit-transform: 400ms;
+    transform: 400ms;
+    opacity: 0;
+    padding-bottom: 1em;
+    margin-top: -38px;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+}
+.level-open footer:hover div {
+    opacity: 1;
+    margin-top: 0;
 }
 
 footer h1 { display: none; color: #fff; }
