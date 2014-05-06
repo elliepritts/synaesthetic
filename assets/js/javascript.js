@@ -45,10 +45,10 @@ var GAME = (function() {
             });
 
             var index = 0,
-                splitAt = Math.floor(Object.keys(notes).length / 16);
+                splitAt = Math.floor(Object.keys(notes).length / 8);
 
             $.each(notes, function(color) {
-                notes[color] = 60 + Math.floor(index++ / splitAt);
+                notes[color] = [69, 71, 72, 76, 69, 71, 72, 76][Math.floor(index++ / splitAt)];
             });
         },
 
