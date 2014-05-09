@@ -198,7 +198,9 @@ footer a:hover {
 @-webkit-keyframes slide-up { 100% { -webkit-transform: translateY(-100%); opacity: .4; } }
 @keyframes slide-up { 100% { transform: translateY(-100%); opacity: .4; } }
 
-
+#level img {
+    cursor: pointer;
+}
 #level svg path {
     opacity: .95;
     cursor: pointer;

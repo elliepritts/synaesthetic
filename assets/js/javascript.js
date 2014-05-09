@@ -92,11 +92,27 @@ var GAME = (function() {
         },
         advance: function() {
             guesses = [];
-            state[1]++ > 3 && ((state[1] = 0) || (state[0] = 1));
             $('<div class="notice"/>').text(_successMessage).insertBefore('#level');
-            return GAME.level();
+            if ( state[1]++ < 3 ) {
+                return GAME.level();
+            }
+
+            $('#level')
+                .html($('<img/>').attr('src', '/assets/svg/' + levels[state[0] - 1] + '/final.jpg'))
+                .fadeIn().one('click', function() {
+                    state[0]++;
+                    state[1] = 1;
+                    GAME.level();
+                });
+            return GAME;
         },
         level: function() {
+            if ( 'undefined' === typeof levels[state[0] - 1] ) {
+                $('#level').fadeOut();
+                alert('GAME OVER!');
+                return;
+            }
+
             var svg = $.ajax('./assets/svg/' + levels[state[0] - 1] + '/' + state[1] + '.svg');
 
             $('body').addClass('level-open');
