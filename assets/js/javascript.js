@@ -1,11 +1,14 @@
 var GAME = (function() {
     var state = [0, 0],
-        levels = ['vic'],
-        guesses = [],
+        levels = ['jump', 'sf', 'vic', 'alicante', 'ns'],
         answers = {
-            'chicago': [[31,23,40]],
-            'vic': [[101,99,112]]
+            'jump':     [[64, 65, 67], [64, 65, 67], [64, 65, 67]],
+            'sf':       [[64, 65, 67], [64, 65, 67], [64, 65, 67]],
+            'vic':      [[64, 65, 67], [64, 65, 67], [64, 65, 67]],
+            'alicante': [[64, 65, 67], [64, 65, 67], [64, 65, 67]],
+            'ns':       [[64, 65, 67], [64, 65, 67], [64, 65, 67]]
         },
+        guesses = [],
         notes = {},
         midi = [64, 65, 67, 69, 71, 72, 74, 76, 77, 79, 81],
 
@@ -70,7 +73,7 @@ var GAME = (function() {
 
             console.log('CLICKING: ', info);
 
-            guesses.push(info['index']);
+            guesses.push(notes[info['color']]);
 
             console.log('GUESS: ', guesses.toString());
             console.log('ANSWER: ', currentAnswer.toString());
@@ -88,6 +91,7 @@ var GAME = (function() {
             return GAME;
         },
         advance: function() {
+            guesses = [];
             state[1]++ > 3 && ((state[1] = 0) || (state[0] = 1));
             $('<div class="notice"/>').text(_successMessage).insertBefore('#level');
             return GAME.level();
