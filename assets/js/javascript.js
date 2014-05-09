@@ -7,6 +7,7 @@ var GAME = (function() {
             'vic': [[101,99,112]]
         },
         notes = {},
+        midi = [64, 65, 67, 69, 71, 72, 74, 76, 77, 79, 81],
 
         SYNTH = T('OscGen', { env: T('perc', { msec: timbre.timevalue('bpm120 l8'), ar: true }) }).play(),
 
@@ -45,10 +46,10 @@ var GAME = (function() {
             });
 
             var index = 0,
-                splitAt = Math.floor(Object.keys(notes).length / 8);
+                splitAt = Math.floor(Object.keys(notes).length / (midi.length - 1));
 
             $.each(notes, function(color) {
-                notes[color] = [69, 71, 72, 76, 69, 71, 72, 76][Math.floor(index++ / splitAt)];
+                notes[color] = midi[Math.floor(index++ / splitAt)];
             });
         },
 
