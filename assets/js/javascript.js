@@ -10,7 +10,7 @@ var GAME = (function() {
         },
         guesses = [],
         notes = {},
-        midi = [64, 65, 67, 69, 71, 72, 74, 76, 77, 79, 81],
+        midi = [64, 65, 66, 67, 68, 69, 71, 72, 74, 76, 77, 79, 81],
 
         SYNTH = T('OscGen', { env: T('perc', { msec: timbre.timevalue('bpm120 l8'), ar: true }) }).play(),
 
