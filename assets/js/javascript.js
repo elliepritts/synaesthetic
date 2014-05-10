@@ -23,11 +23,11 @@ var GAME = (function() {
 
         _successMessage = function() {
             var messages = [
-                'nice one!',
+                'music to my ears!',
                 'sweet!',
                 'very nice',
                 'amazing!',
-                'good job!'
+                'such harmony'
             ];
             return messages[ Math.floor(Math.random() * messages.length) ];
         },
