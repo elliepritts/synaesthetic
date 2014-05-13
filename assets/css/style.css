@@ -32,7 +32,7 @@ button:hover {
 }
 
 h1 {
-    font: 300 3em 'Source Code Pro' ;
+    font: 300 3em 'Source Code Pro';
     margin: .15em 0 .2em;
     letter-spacing: .2em;
     text-shadow: 0 0 1em rgba(0, 0, 0, .85);
@@ -58,7 +58,7 @@ h3:after {
 h3:before { left: 0; }
 h3:after { right: 0; }
 
-h3.hr { margin: 60px 160px; color: #aaa; font-size: 1.4em; }
+h3.hr { margin: 60px 160px; color: #aaa; font: 300 2em 'Source Code Pro'; }
 
 #start {
     background: linear-gradient(to bottom, rgba(255,255,255,.1) 0%, rgba(0,0,0,.85) 100%), url(../svg/background.svg) top center;
