@@ -49,7 +49,7 @@ var GAME = (function() {
             });
 
             var index = 0,
-                splitAt = Math.floor(Object.keys(notes).length / (midi.length - 1));
+                splitAt = Math.ceil(Object.keys(notes).length / (midi.length - 1));
 
             $.each(notes, function(color) {
                 notes[color] = midi[Math.floor(index++ / splitAt)];
