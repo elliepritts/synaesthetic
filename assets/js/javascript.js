@@ -12,7 +12,19 @@ var GAME = (function() {
         notes = {},
         midi = [64, 65, 66, 67, 68, 70, 71, 72, 74, 76, 77, 79, 81],
 
-        SYNTH = T('OscGen', { env: T('perc', { msec: timbre.timevalue('bpm120 l8'), ar: true }) }).play(),
+        SYNTH = (function() {
+            var synths = [],
+                currentSynth = 0;
+
+            for ( var i = 0; i < 20; i++ ) {
+                synths.push( T('OscGen', { env: T('perc', { ar: true }) }).play() );
+            }
+
+            return function(note) {
+                currentSynth++ && currentSynth >= 20 && (currentSynth = 0);
+                return synths[currentSynth].noteOn( note, 10 );
+            };
+        })(),
 
         _scaleSVG = function() {
             $('#level svg').each(function() {
@@ -60,7 +72,7 @@ var GAME = (function() {
             var info = $(this).data('synaesthetic');
             console.log('ENTERING: ', info);
             console.log('PLAY NOTE: ', notes[info.color]);
-            SYNTH.noteOn( notes[info.color], 60 );
+            SYNTH( notes[info.color] );
         },
         _pathLeave = function(e) {
             var info = $(this).data('synaesthetic');
