@@ -126,7 +126,7 @@ var GAME = (function() {
                 return;
             }
 
-            var svg = $.ajax('./assets/svg/' + levels[state[0] - 1] + '/' + state[1] + '.svg');
+            var svg = $.ajax('assets/svg/' + levels[state[0] - 1] + '/' + state[1] + '.svg');
 
             $('body').addClass('level-open');
 
@@ -153,7 +153,18 @@ var GAME = (function() {
 
 $(function() {
     $('#start button').click(function() {
-        GAME.setup().state(1, 1).level();
+        var $button = $(this).text('turn up your volume').prop('disabled', true),
+            ellipsis = setInterval(function() {
+                $button.text(function() {
+                    return $button.text() + '.'
+                });
+            }, 500);
+
+        setTimeout(function() {
+            clearInterval(ellipsis);
+            $button.text('TURN DOWN FOR WHAT');
+            GAME.setup().state(1, 1).level();
+        }, 1999);
     });
 
     // Do some crazy stuff to make about fade in and out
