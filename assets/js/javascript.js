@@ -73,6 +73,7 @@ var GAME = (function() {
             console.log('ENTERING: ', info);
             console.log('PLAY NOTE: ', notes[info.color]);
             SYNTH( notes[info.color] );
+            console.log('IS NEXT NOTE:', (guesses.length ? guesses.toString() + ',' : '') + notes[info.color] === answers[levels[state[0] - 1]][state[1] - 1].slice(0, guesses.length + 1).toString() ? 'YES' : 'no');
         },
         _pathLeave = function(e) {
             var info = $(this).data('synaesthetic');
@@ -92,8 +93,11 @@ var GAME = (function() {
 
             if ( guesses.toString() !== currentAnswer.slice(0, guesses.length).toString() ) {
                 guesses = [];
+                $('[data-highlight]').removeAttr('data-highlight');
             } else if ( guesses.length === currentAnswer.length ) {
                 GAME.advance();
+            } else {
+                $(this).attr('data-highlight', 'true').appendTo( $(this).parent() );
             }
         };
 
@@ -153,6 +157,9 @@ var GAME = (function() {
 
 $(function() {
     $('#start button').click(function() {
+        console.log('DEBUG ON:');
+        GAME.setup().state(1, 1).level();
+        return;
         var $button = $(this).text('turn up your volume').prop('disabled', true),
             ellipsis = setInterval(function() {
                 $button.text(function() {

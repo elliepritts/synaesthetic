@@ -211,7 +211,8 @@ footer a:hover {
 #level svg path:hover {
     opacity: 1;
 }
-#level svg path[data-answer]:hover {
+#level svg path[data-highlight] {
     stroke: #10be20;
-    stroke-width: 2;
+    stroke-width: 3;
+    opacity: 1;
 }
