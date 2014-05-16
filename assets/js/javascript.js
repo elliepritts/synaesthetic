@@ -14,14 +14,28 @@ var GAME = (function() {
 
         SYNTH = (function() {
             var synths = [],
-                currentSynth = 0;
+                currentSynth = 0,
+                sustains = [
+                    T('OscGen', { env: T('perc', { ar: true, r: 60 * 60 * 60 }) }).play(),
+                    T('OscGen', { env: T('perc', { ar: true, r: 60 * 60 * 60 }) }).play()
+                ],
+                currentSustain = 0;
 
             for ( var i = 0; i < 20; i++ ) {
                 synths.push( T('OscGen', { env: T('perc', { ar: true }) }).play() );
             }
 
-            return function(note) {
-                currentSynth++ && currentSynth >= 20 && (currentSynth = 0);
+            return function(note, sustain) {
+                if ( 'undefined' !== typeof sustain ) {
+                    if ( sustain ) {
+                        currentSustain++ && currentSustain >= sustains.length && (currentSustain = 0);
+                        return sustains[currentSustain].noteOn( note, 10 );
+                    } else {
+                        sustains[0].allSoundOff();
+                        sustains[1].allSoundOff();
+                    }
+                }
+                currentSynth++ && currentSynth >= synths.length && (currentSynth = 0);
                 return synths[currentSynth].noteOn( note, 10 );
             };
         })(),
@@ -86,18 +100,20 @@ var GAME = (function() {
 
             console.log('CLICKING: ', info);
 
-            guesses.push(notes[info['color']]);
+            guesses.push(notes[info.color]);
 
             console.log('GUESS: ', guesses.toString());
             console.log('ANSWER: ', currentAnswer.toString());
 
             if ( guesses.toString() !== currentAnswer.slice(0, guesses.length).toString() ) {
+                SYNTH( undefined, false );
                 guesses = [];
                 $('[data-highlight]').removeAttr('data-highlight');
             } else if ( guesses.length === currentAnswer.length ) {
                 GAME.advance();
             } else {
                 $(this).attr('data-highlight', 'true').appendTo( $(this).parent() );
+                SYNTH( notes[info.color], true );
             }
         };
 
@@ -125,7 +141,9 @@ var GAME = (function() {
         },
         level: function() {
             if ( 'undefined' === typeof levels[state[0] - 1] ) {
-                $('#level').fadeOut();
+                $('#level').fadeOut(function() {
+                    SYNTH( undefined, false );
+                });
                 alert('GAME OVER!');
                 return;
             }
@@ -135,7 +153,9 @@ var GAME = (function() {
             $('body').addClass('level-open');
 
             $.when(svg, $('#level').fadeOut()).done(function(svgDfr, animationDfr) {
-                $('#level').html(document.importNode(svgDfr[0].documentElement, true)).fadeIn();
+                $('#level').html(document.importNode(svgDfr[0].documentElement, true)).fadeIn(function() {
+                    SYNTH( undefined, false );
+                });
 
                 _generatePathInfo();
                 _scaleSVG();
