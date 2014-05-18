@@ -178,7 +178,10 @@ var GAME = (function() {
 $(function() {
     $('#start button').click(function() {
         console.log('DEBUG ON:');
-        GAME.setup().state(1, 1).level();
+
+        $('body').addClass('level-open');
+
+        $('#final').addClass('open')
         return;
         var $button = $(this).text('turn up your volume').prop('disabled', true),
             ellipsis = setInterval(function() {
@@ -189,7 +192,6 @@ $(function() {
 
         setTimeout(function() {
             clearInterval(ellipsis);
-            $button.text('TURN DOWN FOR WHAT');
             GAME.setup().state(1, 1).level();
         }, 1999);
     });

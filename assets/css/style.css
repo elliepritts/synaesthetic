@@ -125,6 +125,19 @@ h3.hr { margin: 60px 160px; color: #aaa; font: 300 2em 'Source Code Pro'; }
     width: 200px;
 }
 
+#final {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    -webkit-transition: 400ms;
+    transition: 400ms;
+}
+
+#final.open {
+    opacity: 1;
+    max-height: 100em;
+}
+
 footer {
     opacity: .5;
     background: rgba(0, 0, 0, .85);
