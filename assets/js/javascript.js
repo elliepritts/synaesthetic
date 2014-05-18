@@ -41,8 +41,8 @@ var GAME = (function() {
         })(),
 
         _scaleSVG = function() {
-            $('#level svg').each(function() {
-                var i = $(this), w = i.attr('width'), h = i.attr('height'), cw = i.parents('#level').width();
+            $('svg', '#level, #final').each(function() {
+                var i = $(this), w = i.attr('width'), h = i.attr('height'), cw = i.parents('#level, #final').width();
                 i.css({width: cw, height: Math.floor(h / (w / cw))});
             });
         },
@@ -171,6 +171,15 @@ var GAME = (function() {
             $('<div class="notice"/>').text('strike a chord').insertBefore('#level');
 
             return GAME;
+        },
+        end: function() {
+            $('#final').addClass('open');
+            $.ajax('assets/svg/endgame.svg').done(function(data) {
+                $('#final').prepend(document.importNode(data.documentElement, true));
+                _scaleSVG();
+            });
+
+
         }
     }
 })();
@@ -180,8 +189,7 @@ $(function() {
         console.log('DEBUG ON:');
 
         $('body').addClass('level-open');
-
-        $('#final').addClass('open')
+        GAME.end();
         return;
         var $button = $(this).text('turn up your volume').prop('disabled', true),
             ellipsis = setInterval(function() {
