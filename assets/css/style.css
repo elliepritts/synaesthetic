@@ -160,7 +160,7 @@ h3.hr { margin: 60px 160px; color: #aaa; font: 300 2em 'Source Code Pro'; }
 }
 #final .content {
     position: relative;
-    max-width: 660px;
+    max-width: 950px;
     margin: 40px auto;
 }
 #final h1 {
@@ -176,6 +176,7 @@ h3.hr { margin: 60px 160px; color: #aaa; font: 300 2em 'Source Code Pro'; }
 .wallpapers img {
     display: inline-block;
     width: 32%;
+    height: 32%;
     float: left;
     margin-bottom: 1em;
     margin-top: 1em;
