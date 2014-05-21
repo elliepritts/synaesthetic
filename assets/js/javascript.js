@@ -51,9 +51,9 @@ var GAME = (function() {
             var messages = [
                 'music to my ears!',
                 'sweet!',
-                'very nice',
+                'very nice!',
                 'amazing!',
-                'such harmony'
+                'fantastic!'
             ];
             return messages[ Math.floor(Math.random() * messages.length) ];
         },
