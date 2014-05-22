@@ -140,19 +140,19 @@ var GAME = (function() {
             return GAME;
         },
         level: function() {
+            $('body').addClass('level-open');
+
             if ( 'undefined' === typeof levels[state[0] - 1] ) {
                 $('#level').fadeOut(function() {
                     SYNTH( undefined, false );
                 });
-                alert('GAME OVER!');
-                return;
+                return GAME.end();
             }
 
-            var svg = $.ajax('assets/svg/' + levels[state[0] - 1] + '/' + state[1] + '.svg');
-
-            $('body').addClass('level-open');
-
-            $.when(svg, $('#level').fadeOut()).done(function(svgDfr, animationDfr) {
+            $.when(
+                $.ajax('assets/svg/' + levels[state[0] - 1] + '/' + state[1] + '.svg'),
+                $('#level').fadeOut()
+            ).done(function(svgDfr, animationDfr) {
                 $('#level').html(document.importNode(svgDfr[0].documentElement, true)).fadeIn(function() {
                     SYNTH( undefined, false );
                 });
@@ -179,18 +179,13 @@ var GAME = (function() {
                 _scaleSVG();
             });
 
-
+            return GAME;
         }
     }
 })();
 
 $(function() {
     $('#start button').click(function() {
-        console.log('DEBUG ON:');
-
-        $('body').addClass('level-open');
-        GAME.end();
-        return;
         var $button = $(this).text('turn up your volume').prop('disabled', true),
             ellipsis = setInterval(function() {
                 $button.text(function() {
