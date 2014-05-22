@@ -18,16 +18,18 @@ body {
     text-rendering: optimizeLegibility;
 }
 
-button {
+button, .button {
+    display: inline-block;
     line-height: 1;
     border: 1px solid #fff;
     padding: 1em 1.5em;
     background: rgba(184, 103, 146, .6);
     letter-spacing: .1em;
+    text-decoration: none;
     -webkit-transition: 250ms;
     transition: 250ms;
 }
-button:hover {
+button:hover, .button {
     background: rgba(222, 103, 159, .8);
 }
 
@@ -123,6 +125,83 @@ h3.hr { margin: 60px 160px; color: #aaa; font: 300 2em 'Source Code Pro'; }
     margin: 0 auto;
     border-radius: 50%;
     width: 200px;
+}
+
+#final {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    -webkit-transition: 400ms;
+    transition: 400ms;
+    text-align: center;
+}
+#final.open {
+    opacity: 1;
+    max-height: 100em;
+}
+
+#final svg {
+    opacity: .45;
+    position: absolute;
+    top: 0; left: 0;
+}
+
+#final path {
+    -webkit-animation: 50s 1.5s final infinite ease-in-out;
+    -webkit-transform-origin: center;
+    animation: 50s 1.5s final infinite ease-in-out;
+    transform-origin: center;
+}
+@-webkit-keyframes final {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+@keyframes final {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+#final .content {
+    position: relative;
+    max-width: 660px;
+    margin: 40px auto;
+}
+#final h1 {
+    letter-spacing: 0;
+    margin-bottom: 0;
+}
+#final h2 {
+    margin-bottom: 3em;
+}
+.wallpapers {
+    width: 1000px;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    margin: 4em 0 0 50%;
+}
+.wallpapers h3 {
+    width: 660px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.wallpapers img {
+    display: inline-block;
+    width: 32%;
+    float: left;
+    margin: 1em 0 1em 2%;
+}
+.wallpapers a:first-of-type img {
+    margin-left: 0;
+}
+.wallpapers:after {
+    content: '';
+    display: table;
+    clear: both;
+}
+#final p {
+    margin-top: 1em;
+    text-transform: none;
+    font-size: .85em;
+    font-style: italic;
 }
 
 footer {

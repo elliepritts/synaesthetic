@@ -41,8 +41,8 @@ var GAME = (function() {
         })(),
 
         _scaleSVG = function() {
-            $('#level svg').each(function() {
-                var i = $(this), w = i.attr('width'), h = i.attr('height'), cw = i.parents('#level').width();
+            $('svg', '#level, #final').each(function() {
+                var i = $(this), w = i.attr('width'), h = i.attr('height'), cw = i.parents('#level, #final').width();
                 i.css({width: cw, height: Math.floor(h / (w / cw))});
             });
         },
@@ -140,19 +140,16 @@ var GAME = (function() {
             return GAME;
         },
         level: function() {
-            if ( 'undefined' === typeof levels[state[0] - 1] ) {
-                $('#level').fadeOut(function() {
-                    SYNTH( undefined, false );
-                });
-                alert('GAME OVER!');
-                return;
-            }
-
-            var svg = $.ajax('assets/svg/' + levels[state[0] - 1] + '/' + state[1] + '.svg');
-
             $('body').addClass('level-open');
 
-            $.when(svg, $('#level').fadeOut()).done(function(svgDfr, animationDfr) {
+            if ( 'undefined' === typeof levels[state[0] - 1] ) {
+                return GAME.end();
+            }
+
+            $.when(
+                $.ajax('assets/svg/' + levels[state[0] - 1] + '/' + state[1] + '.svg'),
+                $('#level').fadeOut()
+            ).done(function(svgDfr, animationDfr) {
                 $('#level').html(document.importNode(svgDfr[0].documentElement, true)).fadeIn(function() {
                     SYNTH( undefined, false );
                 });
@@ -171,15 +168,22 @@ var GAME = (function() {
             $('<div class="notice"/>').text('strike a chord').insertBefore('#level');
 
             return GAME;
+        },
+        end: function() {
+            $('#level').fadeOut(function() { SYNTH( undefined, false ) });
+            $('#final').addClass('open');
+            $.ajax('assets/svg/endgame.svg').done(function(data) {
+                $('#final').prepend(document.importNode(data.documentElement, true));
+                _scaleSVG();
+            });
+
+            return GAME;
         }
     }
 })();
 
 $(function() {
     $('#start button').click(function() {
-        console.log('DEBUG ON:');
-        GAME.setup().state(1, 1).level();
-        return;
         var $button = $(this).text('turn up your volume').prop('disabled', true),
             ellipsis = setInterval(function() {
                 $button.text(function() {
@@ -189,7 +193,6 @@ $(function() {
 
         setTimeout(function() {
             clearInterval(ellipsis);
-            $button.text('TURN DOWN FOR WHAT');
             GAME.setup().state(1, 1).level();
         }, 1999);
     });
