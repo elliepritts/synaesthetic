@@ -15,7 +15,7 @@ var GAME = (function() {
         SYNTH = (function() {
             var synths = [],
                 currentSynth = 0,
-                sustainSynth = T('OscGen', { env: T('perc', { ar: true, r: 60 * 60 * 60 }) }).play();
+                sustainSynth = T('OscGen', { env: T('perc', { ar: true, r: 30 * 20 * 15 }) }).play();
 
             for ( var i = 0; i < 20; i++ ) {
                 synths.push( T('OscGen', { env: T('perc', { ar: true }) }).play() );
