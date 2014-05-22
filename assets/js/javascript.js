@@ -143,9 +143,6 @@ var GAME = (function() {
             $('body').addClass('level-open');
 
             if ( 'undefined' === typeof levels[state[0] - 1] ) {
-                $('#level').fadeOut(function() {
-                    SYNTH( undefined, false );
-                });
                 return GAME.end();
             }
 
@@ -173,6 +170,7 @@ var GAME = (function() {
             return GAME;
         },
         end: function() {
+            $('#level').fadeOut(function() { SYNTH( undefined, false ) });
             $('#final').addClass('open');
             $.ajax('assets/svg/endgame.svg').done(function(data) {
                 $('#final').prepend(document.importNode(data.documentElement, true));

@@ -18,16 +18,18 @@ body {
     text-rendering: optimizeLegibility;
 }
 
-button {
+button, .button {
+    display: inline-block;
     line-height: 1;
     border: 1px solid #fff;
     padding: 1em 1.5em;
     background: rgba(184, 103, 146, .6);
     letter-spacing: .1em;
+    text-decoration: none;
     -webkit-transition: 250ms;
     transition: 250ms;
 }
-button:hover {
+button:hover, .button {
     background: rgba(222, 103, 159, .8);
 }
 
