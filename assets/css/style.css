@@ -160,7 +160,7 @@ h3.hr { margin: 60px 160px; color: #aaa; font: 300 2em 'Source Code Pro'; }
 }
 #final .content {
     position: relative;
-    max-width: 950px;
+    max-width: 660px;
     margin: 40px auto;
 }
 #final h1 {
@@ -171,21 +171,27 @@ h3.hr { margin: 60px 160px; color: #aaa; font: 300 2em 'Source Code Pro'; }
     margin-bottom: 3em;
 }
 .wallpapers {
-    margin-top: 4em;
+    width: 1000px;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    margin: 4em 0 0 50%;
+}
+.wallpapers h3 {
+    width: 660px;
+    margin-left: auto;
+    margin-right: auto;
 }
 .wallpapers img {
     display: inline-block;
     width: 32%;
-    height: 32%;
     float: left;
-    margin-bottom: 1em;
-    margin-top: 1em;
+    margin: 1em 0 1em 2%;
 }
-.wallpapers a + a img {
-    margin-left: 2%;
+.wallpapers a:first-of-type img {
+    margin-left: 0;
 }
 .wallpapers:after {
-    content: "";
+    content: '';
     display: table;
     clear: both;
 }
