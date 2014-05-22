@@ -18,6 +18,10 @@ body {
     text-rendering: optimizeLegibility;
 }
 
+.whitenoise-fix, .whitenoise-fix * {
+    pointer-events: none;
+}
+
 button, .button {
     display: inline-block;
     line-height: 1;
