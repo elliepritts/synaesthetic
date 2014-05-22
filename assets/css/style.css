@@ -295,7 +295,6 @@ footer a:hover {
     opacity: 1;
 }
 #level svg path[data-highlight] {
-    stroke: #10be20;
-    stroke-width: 3;
-    opacity: 1;
+    stroke: rgba(72, 225, 233, 0.4);
+    stroke-width: 7;
 }
