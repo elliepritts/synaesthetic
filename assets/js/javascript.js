@@ -24,7 +24,7 @@ var GAME = (function() {
             return function(note, sustain) {
                 if ( 'undefined' !== typeof sustain ) {
                     if ( sustain ) {
-                        return sustainSynth.noteOn( note, 10 );
+                        return sustainSynth.noteOn( note, 7 );
                     } else {
                         sustainSynth.allSoundOff();
                     }
@@ -109,7 +109,7 @@ var GAME = (function() {
             }
 
             if ( guesses.length === currentAnswer.length ) {
-                setTimeout(GAME.advance, 400);
+                setTimeout(GAME.advance, 500);
             }
         };
 
