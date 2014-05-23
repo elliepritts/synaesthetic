@@ -101,6 +101,9 @@ var GAME = (function() {
 
             if ( guesses.toString() !== currentAnswer.slice(0, guesses.length).toString() ) {
                 SYNTH( undefined, false );
+                guesses[0] && SYNTH( guesses[0] );
+                guesses[1] && SYNTH( guesses[1] );
+                guesses[2] && SYNTH( guesses[2] );
                 guesses = [];
                 $('[data-highlight]').removeAttr('data-highlight');
             } else {
