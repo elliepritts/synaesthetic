@@ -2,7 +2,7 @@ var GAME = (function() {
     var state = [0, 0],
         levels = ['jump', 'sf', 'vic', 'alicante', 'ns'],
         answers = {
-            'jump':     [[64, 66, 68], [70, 72, 74], [64, 66, 68]],
+            'jump':     [[65, 70, 74], [70, 72, 74], [64, 66, 68]],
             'sf':       [[64, 68, 71], [70, 72, 74], [70, 72, 74]],
             'vic':      [[68, 70, 72], [64, 66, 68], [70, 72, 74]],
             'alicante': [[70, 72, 74], [72, 74, 76], [72, 74, 76]],
@@ -24,7 +24,7 @@ var GAME = (function() {
             return function(note, sustain) {
                 if ( 'undefined' !== typeof sustain ) {
                     if ( sustain ) {
-                        return sustainSynth.noteOn( note, 7 );
+                        return sustainSynth.noteOn( note, 13 );
                     } else {
                         sustainSynth.allSoundOff();
                     }
@@ -109,7 +109,7 @@ var GAME = (function() {
             }
 
             if ( guesses.length === currentAnswer.length ) {
-                setTimeout(GAME.advance, 500);
+                setTimeout(GAME.advance, 2000);
             }
         };
 
