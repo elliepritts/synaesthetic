@@ -230,6 +230,11 @@ $(function() {
         }, 1999);
     });
 
+    $('#level-footer h1').click(function() {
+        $('#level').hide();
+        $('body').removeClass('level-open');
+    });
+
     var whitenoiseTimeout;
     $(window).scroll(function() {
         if ( $('#about.open').length ) return true;
