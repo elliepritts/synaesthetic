@@ -34,6 +34,8 @@ var GAME = (function() {
             };
         })(),
 
+        helpTimeout,
+
         _scaleSVG = function() {
             $('svg', '#level, #final').each(function() {
                 var i = $(this), w = i.attr('width'), h = i.attr('height'), cw = i.parents('#level, #final').width();
@@ -107,6 +109,7 @@ var GAME = (function() {
                 guesses = [];
                 $('[data-highlight]').removeAttr('data-highlight');
             } else {
+                clearTimeout(helpTimeout);
                 $(this).attr('data-highlight', 'true').appendTo( $(this).parent() );
                 SYNTH( notes[info.color], true );
             }
@@ -191,6 +194,14 @@ var GAME = (function() {
             });
 
             return GAME;
+        },
+        help: function() {
+            helpTimeout = setTimeout(function() {
+                $('#help').fadeIn();
+                $('#help button').click(function() {
+                    $('#help').fadeOut(function() { $(this).remove() });
+                });
+            }, 1000 * 1);
         }
     }
 })();
@@ -202,19 +213,15 @@ $(function() {
     });
 
     $('#explanation button').click(function() {
-
         var $button = $(this).text('turn up your volume').prop('disabled', true),
-            ellipsis = setInterval(function() {
-                $button.text(function() {
-                    return $button.text() + '.'
-                });
-            }, 500);
+            ellipsis = setInterval(function() { $button.text(function() { return $button.text() + '.' }) }, 500);
 
         setTimeout(function() {
             clearInterval(ellipsis);
             $('#explanation').fadeOut(function() { $(this).remove() });
+            GAME.help();
         }, 1999);
-    })
+    });
 
     var whitenoiseTimeout;
     $(window).scroll(function() {
