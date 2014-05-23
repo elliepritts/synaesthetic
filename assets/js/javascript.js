@@ -199,18 +199,13 @@ var GAME = (function() {
 
 $(function() {
     $('#start button').click(function() {
-        var $button = $(this).text('turn up your volume').prop('disabled', true),
-            ellipsis = setInterval(function() {
-                $button.text(function() {
-                    return $button.text() + '.'
-                });
-            }, 400);
-
-        setTimeout(function() {
-            clearInterval(ellipsis);
-            GAME.setup().state(1, 1).level();
-        }, 1199);
+        $('#explanation').fadeIn();
+        GAME.setup().state(1, 1).level();
     });
+
+    $('#explanation button').click(function() {
+        $('#explanation').fadeOut();
+    })
 
     var whitenoiseTimeout;
     $(window).scroll(function() {
