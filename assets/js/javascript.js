@@ -34,6 +34,8 @@ var GAME = (function() {
             };
         })(),
 
+        helpTimeout,
+
         _scaleSVG = function() {
             $('svg', '#level, #final').each(function() {
                 var i = $(this), w = i.attr('width'), h = i.attr('height'), cw = i.parents('#level, #final').width();
@@ -107,6 +109,7 @@ var GAME = (function() {
                 guesses = [];
                 $('[data-highlight]').removeAttr('data-highlight');
             } else {
+                clearTimeout(helpTimeout);
                 $(this).attr('data-highlight', 'true').appendTo( $(this).parent() );
                 SYNTH( notes[info.color], true );
             }
@@ -191,6 +194,21 @@ var GAME = (function() {
             });
 
             return GAME;
+        },
+        help: function() {
+            helpTimeout = setTimeout(function() {
+                $('#help').fadeIn();
+                $('#help button').click(function() {
+                    $('body').addClass('whitenoise-fix');
+                    $('#help').fadeOut(function() {
+                        $(this).remove();
+                        $('body').removeClass('whitenoise-fix');
+                    });
+                    $('#level path').filter(function() {
+                        return answers.jump[0][0] === notes[$(this).data('synaesthetic').color];
+                    }).attr('data-highlight', 'true').first().click();
+                });
+            }, 1000 * 15);
         }
     }
 })();
@@ -202,19 +220,15 @@ $(function() {
     });
 
     $('#explanation button').click(function() {
-
         var $button = $(this).text('turn up your volume').prop('disabled', true),
-            ellipsis = setInterval(function() {
-                $button.text(function() {
-                    return $button.text() + '.'
-                });
-            }, 500);
+            ellipsis = setInterval(function() { $button.text(function() { return $button.text() + '.' }) }, 500);
 
         setTimeout(function() {
             clearInterval(ellipsis);
             $('#explanation').fadeOut(function() { $(this).remove() });
+            GAME.help();
         }, 1999);
-    })
+    });
 
     var whitenoiseTimeout;
     $(window).scroll(function() {
