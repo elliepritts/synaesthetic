@@ -252,24 +252,23 @@ footer {
     opacity: 1;
     position: relative;
     z-index: 2;
+    padding: 0 1em;
+}
+.level-open footer:after {
+    display: block;
+    clear: both;
+    content: '';
 }
 
 .level-open footer div {
-    -webkit-transform: 400ms;
-    transform: 400ms;
-    opacity: 0;
-    padding-bottom: 1em;
-    margin-top: -38px;
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
-}
-.level-open footer:hover div {
-    opacity: 1;
-    margin-top: 0;
+    position: absolute;
+    top: 50%; right: 1em;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
 }
 
 footer h1 { display: none; color: #fff; }
-.level-open footer h1 { display: block; }
+.level-open footer h1 { display: block; float: left; }
 
 footer, footer * {
     -webkit-transition: 250ms;

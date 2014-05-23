@@ -180,8 +180,6 @@ var GAME = (function() {
                 .on('mouseleave', 'path', _pathLeave)
                 .on('click',      'path', _pathClick);
 
-            $('<div class="notice"/>').text('strike a chord').insertBefore('#level');
-
             return GAME;
         },
         end: function() {
@@ -204,6 +202,8 @@ $(function() {
     });
 
     $('#explanation button').click(function() {
+        $('#explanation').fadeOut();
+        return;
         var $button = $(this).text('turn up your volume').prop('disabled', true),
             ellipsis = setInterval(function() {
                 $button.text(function() {
@@ -219,6 +219,7 @@ $(function() {
 
     var whitenoiseTimeout;
     $(window).scroll(function() {
+        if ( $('#about.open').length ) return true;
         $('body').addClass('whitenoise-fix');
         clearTimeout(whitenoiseTimeout);
         whitenoiseTimeout = setTimeout(function() {
