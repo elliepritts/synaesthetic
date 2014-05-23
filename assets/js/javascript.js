@@ -2,7 +2,7 @@ var GAME = (function() {
     var state = [0, 0],
         levels = ['jump', 'sf', 'vic', 'alicante', 'ns'],
         answers = {
-            'jump':     [[65, 70, 74], [70, 72, 74], [64, 66, 68]],
+            'jump':     [[65, 70, 74], [70, 74, 77], [64, 66, 68]],
             'sf':       [[64, 68, 71], [70, 72, 74], [70, 72, 74]],
             'vic':      [[68, 70, 72], [64, 66, 68], [70, 72, 74]],
             'alicante': [[70, 72, 74], [72, 74, 76], [72, 74, 76]],
@@ -41,7 +41,7 @@ var GAME = (function() {
             });
         },
 
-        _successMessage = function() {
+        /*_successMessage = function() {
             var messages = [
                 'music to my ears!',
                 'sweet!',
@@ -50,7 +50,7 @@ var GAME = (function() {
                 'fantastic!'
             ];
             return messages[ Math.floor(Math.random() * messages.length) ];
-        },
+        },*/
 
         _generatePathInfo = function() {
             $('#level path').each(function() {
@@ -123,7 +123,7 @@ var GAME = (function() {
         },
         advance: function() {
             guesses = [];
-            $('<div class="notice"/>').text(_successMessage).insertBefore('#level');
+            /*$('<div class="notice"/>').text(_successMessage).insertBefore('#level');*/
             if ( state[1]++ < 3 ) {
                 return GAME.level();
             }
@@ -162,7 +162,7 @@ var GAME = (function() {
             }
 
             var svg = $.ajax('assets/svg/' + levels[state[0] - 1] + '/' + state[1] + '.svg');
-            $.wait(prevState[0] ? 1000 : 0).then(function() {
+            $.wait(prevState[0] ? 2000 : 0).then(function() {
                 $.when(svg, $('#level').fadeOut(prevState[0] ? undefined : 0)).done(function(svgDfr, animationDfr) {
                     $('#level').html(document.importNode(svgDfr[0].documentElement, true)).fadeIn(function() {
                         $('body').removeClass('whitenoise-fix');
@@ -202,8 +202,7 @@ $(function() {
     });
 
     $('#explanation button').click(function() {
-        $('#explanation').fadeOut();
-        return;
+
         var $button = $(this).text('turn up your volume').prop('disabled', true),
             ellipsis = setInterval(function() {
                 $button.text(function() {
