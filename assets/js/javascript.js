@@ -129,7 +129,7 @@ var GAME = (function() {
             }
 
             $('#level').fadeOut(function() {
-                $(this).html($('<img/>').attr('src', '/assets/svg/' + levels[state[0] - 1] + '/final.jpg'))
+                $(this).html($('<img/>').attr('src', 'assets/svg/' + levels[state[0] - 1] + '/final.jpg'))
                     .fadeIn().one('click', function() {
                         state[0]++;
                         state[1] = 1;
