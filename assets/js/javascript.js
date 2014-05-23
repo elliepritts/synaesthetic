@@ -2,10 +2,10 @@ var GAME = (function() {
     var state = [0, 0],
         levels = ['jump', 'sf', 'vic', 'alicante', 'ns'],
         answers = {
-            'jump':     [[64, 66, 68], [70, 72, 74], [68, 70, 72]],
-            'sf':       [[64, 65, 67], [70, 72, 74], [68, 70, 72]],
-            'vic':      [[68, 70, 72], [64, 67, 71], [64, 66, 68]],
-            'alicante': [[70, 72, 74], [68, 70, 72], [72, 74, 76]],
+            'jump':     [[65, 70, 74], [70, 72, 74], [64, 66, 68]],
+            'sf':       [[64, 68, 71], [70, 72, 74], [70, 72, 74]],
+            'vic':      [[68, 70, 72], [64, 66, 68], [70, 72, 74]],
+            'alicante': [[70, 72, 74], [72, 74, 76], [72, 74, 76]],
             'ns':       [[67, 72, 76], [72, 76, 79], [79, 76, 72]]
         },
         guesses = [],
@@ -15,11 +15,7 @@ var GAME = (function() {
         SYNTH = (function() {
             var synths = [],
                 currentSynth = 0,
-                sustains = [
-                    T('OscGen', { env: T('perc', { ar: true, r: 60 * 60 * 60 }) }).play(),
-                    T('OscGen', { env: T('perc', { ar: true, r: 60 * 60 * 60 }) }).play()
-                ],
-                currentSustain = 0;
+                sustainSynth = T('OscGen', { env: T('perc', { ar: true, r: 60 * 60 * 3 }) }).play();
 
             for ( var i = 0; i < 20; i++ ) {
                 synths.push( T('OscGen', { env: T('perc', { ar: true }) }).play() );
@@ -28,11 +24,9 @@ var GAME = (function() {
             return function(note, sustain) {
                 if ( 'undefined' !== typeof sustain ) {
                     if ( sustain ) {
-                        currentSustain++ && currentSustain >= sustains.length && (currentSustain = 0);
-                        return sustains[currentSustain].noteOn( note, 10 );
+                        return sustainSynth.noteOn( note, 13 );
                     } else {
-                        sustains[0].allSoundOff();
-                        sustains[1].allSoundOff();
+                        sustainSynth.allSoundOff();
                     }
                 }
                 currentSynth++ && currentSynth >= synths.length && (currentSynth = 0);
@@ -41,8 +35,8 @@ var GAME = (function() {
         })(),
 
         _scaleSVG = function() {
-            $('#level svg').each(function() {
-                var i = $(this), w = i.attr('width'), h = i.attr('height'), cw = i.parents('#level').width();
+            $('svg', '#level, #final').each(function() {
+                var i = $(this), w = i.attr('width'), h = i.attr('height'), cw = i.parents('#level, #final').width();
                 i.css({width: cw, height: Math.floor(h / (w / cw))});
             });
         },
@@ -107,13 +101,18 @@ var GAME = (function() {
 
             if ( guesses.toString() !== currentAnswer.slice(0, guesses.length).toString() ) {
                 SYNTH( undefined, false );
+                guesses[0] && SYNTH( guesses[0] );
+                guesses[1] && SYNTH( guesses[1] );
+                guesses[2] && SYNTH( guesses[2] );
                 guesses = [];
                 $('[data-highlight]').removeAttr('data-highlight');
-            } else if ( guesses.length === currentAnswer.length ) {
-                GAME.advance();
             } else {
                 $(this).attr('data-highlight', 'true').appendTo( $(this).parent() );
                 SYNTH( notes[info.color], true );
+            }
+
+            if ( guesses.length === currentAnswer.length ) {
+                GAME.advance();
             }
         };
 
@@ -140,25 +139,38 @@ var GAME = (function() {
             return GAME;
         },
         level: function() {
+            $('body').addClass('level-open');
+
             if ( 'undefined' === typeof levels[state[0] - 1] ) {
-                $('#level').fadeOut(function() {
-                    SYNTH( undefined, false );
-                });
-                alert('GAME OVER!');
-                return;
+                return GAME.end();
+            }
+
+            $('body').addClass('whitenoise-fix');
+
+            var prevState = [state[0], state[1] - 1];
+            if ( prevState[1] <= 0 ) {
+                prevState[0]--;
+                prevState[1] = 1;
+            }
+
+            SYNTH( undefined, false );
+            if ( prevState[0] ) {
+                var lastAnswer = answers[levels[prevState[0] - 1]][prevState[1] - 1];
+                SYNTH( lastAnswer[0] );
+                SYNTH( lastAnswer[1] );
+                SYNTH( lastAnswer[2] );
             }
 
             var svg = $.ajax('assets/svg/' + levels[state[0] - 1] + '/' + state[1] + '.svg');
+            $.wait(prevState[0] ? 1000 : 0).then(function() {
+                $.when(svg, $('#level').fadeOut(prevState[0] ? undefined : 0)).done(function(svgDfr, animationDfr) {
+                    $('#level').html(document.importNode(svgDfr[0].documentElement, true)).fadeIn(function() {
+                        $('body').removeClass('whitenoise-fix');
+                    });
 
-            $('body').addClass('level-open');
-
-            $.when(svg, $('#level').fadeOut()).done(function(svgDfr, animationDfr) {
-                $('#level').html(document.importNode(svgDfr[0].documentElement, true)).fadeIn(function() {
-                    SYNTH( undefined, false );
+                    _generatePathInfo();
+                    _scaleSVG();
                 });
-
-                _generatePathInfo();
-                _scaleSVG();
             });
         },
         setup: function() {
@@ -171,28 +183,43 @@ var GAME = (function() {
             $('<div class="notice"/>').text('strike a chord').insertBefore('#level');
 
             return GAME;
+        },
+        end: function() {
+            $('#level').fadeOut(function() { SYNTH( undefined, false ) });
+            $('#final').addClass('open');
+            $.ajax('assets/svg/endgame.svg').done(function(data) {
+                $('#final').prepend(document.importNode(data.documentElement, true));
+                _scaleSVG();
+            });
+
+            return GAME;
         }
     }
 })();
 
 $(function() {
     $('#start button').click(function() {
-        console.log('DEBUG ON:');
-        GAME.setup().state(1, 1).level();
-        return;
         var $button = $(this).text('turn up your volume').prop('disabled', true),
             ellipsis = setInterval(function() {
                 $button.text(function() {
                     return $button.text() + '.'
                 });
-            }, 500);
+            }, 400);
 
         setTimeout(function() {
             clearInterval(ellipsis);
-            $button.text('TURN DOWN FOR WHAT');
             GAME.setup().state(1, 1).level();
-        }, 1999);
+        }, 1199);
     });
+
+    var whitenoiseTimeout;
+    $(window).scroll(function() {
+        $('body').addClass('whitenoise-fix');
+        clearTimeout(whitenoiseTimeout);
+        whitenoiseTimeout = setTimeout(function() {
+            $('body').removeClass('whitenoise-fix');
+        }, 300)
+    })
 
     // Do some crazy stuff to make about fade in and out
     // @TODO: is there a beter way to do this?
@@ -215,3 +242,5 @@ $(function() {
         }
     });
 });
+
+$.wait=function(t){return $.Deferred(function(d){setTimeout(d.resolve,t)}).promise()};
