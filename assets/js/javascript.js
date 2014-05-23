@@ -199,12 +199,16 @@ var GAME = (function() {
             helpTimeout = setTimeout(function() {
                 $('#help').fadeIn();
                 $('#help button').click(function() {
-                    $('#help').fadeOut(function() { $(this).remove() });
+                    $('body').addClass('whitenoise-fix');
+                    $('#help').fadeOut(function() {
+                        $(this).remove();
+                        $('body').removeClass('whitenoise-fix');
+                    });
                     $('#level path').filter(function() {
-                        return true; //answers.jump[0]
-                    }).attr('data-highlight', true).first().click();
+                        return answers.jump[0][0] === notes[$(this).data('synaesthetic').color];
+                    }).attr('data-highlight', 'true').first().click();
                 });
-            }, 1000 * 1);
+            }, 1000 * 15);
         }
     }
 })();
