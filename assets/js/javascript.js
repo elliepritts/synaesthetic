@@ -123,7 +123,7 @@ var GAME = (function() {
         },
         advance: function() {
             guesses = [];
-            // $('<div class="notice"/>').text(_successMessage).insertBefore('#level');
+             $('<div class="notice"/>').text(_successMessage).insertBefore('#level');
             if ( state[1]++ < 3 ) {
                 return GAME.level();
             }
