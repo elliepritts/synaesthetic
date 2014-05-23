@@ -200,6 +200,9 @@ var GAME = (function() {
                 $('#help').fadeIn();
                 $('#help button').click(function() {
                     $('#help').fadeOut(function() { $(this).remove() });
+                    $('#level path').filter(function() {
+                        return true; //answers.jump[0]
+                    }).attr('data-highlight', true).first().click();
                 });
             }, 1000 * 1);
         }
