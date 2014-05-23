@@ -15,7 +15,7 @@ var GAME = (function() {
         SYNTH = (function() {
             var synths = [],
                 currentSynth = 0,
-                sustainSynth = T('OscGen', { env: T('perc', { ar: true, r: 30 * 20 * 15 }) }).play();
+                sustainSynth = T('OscGen', { env: T('perc', { ar: true, r: 60 * 60 * 3 }) }).play();
 
             for ( var i = 0; i < 20; i++ ) {
                 synths.push( T('OscGen', { env: T('perc', { ar: true }) }).play() );
@@ -109,7 +109,7 @@ var GAME = (function() {
             }
 
             if ( guesses.length === currentAnswer.length ) {
-                setTimeout(GAME.advance, 2000);
+                GAME.advance();
             }
         };
 
@@ -144,18 +144,30 @@ var GAME = (function() {
 
             $('body').addClass('whitenoise-fix');
 
+            var prevState = [state[0], state[1] - 1];
+            if ( prevState[1] <= 0 ) {
+                prevState[0]--;
+                prevState[1] = 1;
+            }
+
             SYNTH( undefined, false );
+            if ( prevState[0] ) {
+                var lastAnswer = answers[levels[prevState[0] - 1]][prevState[1] - 1];
+                SYNTH( lastAnswer[0] );
+                SYNTH( lastAnswer[1] );
+                SYNTH( lastAnswer[2] );
+            }
 
-            $.when(
-                $.ajax('assets/svg/' + levels[state[0] - 1] + '/' + state[1] + '.svg'),
-                $('#level').fadeOut()
-            ).done(function(svgDfr, animationDfr) {
-                $('#level').html(document.importNode(svgDfr[0].documentElement, true)).fadeIn(function() {
-                    $('body').removeClass('whitenoise-fix');
+            var svg = $.ajax('assets/svg/' + levels[state[0] - 1] + '/' + state[1] + '.svg');
+            $.wait(1000).then(function() {
+                $.when(svg, $('#level').fadeOut()).done(function(svgDfr, animationDfr) {
+                    $('#level').html(document.importNode(svgDfr[0].documentElement, true)).fadeIn(function() {
+                        $('body').removeClass('whitenoise-fix');
+                    });
+
+                    _generatePathInfo();
+                    _scaleSVG();
                 });
-
-                _generatePathInfo();
-                _scaleSVG();
             });
         },
         setup: function() {
@@ -189,13 +201,22 @@ $(function() {
                 $button.text(function() {
                     return $button.text() + '.'
                 });
-            }, 500);
+            }, 400);
 
         setTimeout(function() {
             clearInterval(ellipsis);
             GAME.setup().state(1, 1).level();
-        }, 1999);
+        }, 1199);
     });
+
+    var whitenoiseTimeout;
+    $(window).scroll(function() {
+        $('body').addClass('whitenoise-fix');
+        clearTimeout(whitenoiseTimeout);
+        whitenoiseTimeout = setTimeout(function() {
+            $('body').removeClass('whitenoise-fix');
+        }, 500)
+    })
 
     // Do some crazy stuff to make about fade in and out
     // @TODO: is there a beter way to do this?
@@ -218,3 +239,5 @@ $(function() {
         }
     });
 });
+
+$.wait=function(t){return $.Deferred(function(d){setTimeout(d.resolve,t)}).promise()};
