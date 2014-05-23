@@ -204,7 +204,17 @@ $(function() {
     });
 
     $('#explanation button').click(function() {
-        $('#explanation').fadeOut();
+        var $button = $(this).text('turn up your volume').prop('disabled', true),
+            ellipsis = setInterval(function() {
+                $button.text(function() {
+                    return $button.text() + '.'
+                });
+            }, 500);
+
+        setTimeout(function() {
+            clearInterval(ellipsis);
+            $('#explanation').fadeOut();
+        }, 1999);
     })
 
     var whitenoiseTimeout;
@@ -214,7 +224,7 @@ $(function() {
         whitenoiseTimeout = setTimeout(function() {
             $('body').removeClass('whitenoise-fix');
         }, 300)
-    })
+    });
 
     // Do some crazy stuff to make about fade in and out
     // @TODO: is there a beter way to do this?
