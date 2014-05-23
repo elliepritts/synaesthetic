@@ -162,8 +162,8 @@ var GAME = (function() {
             }
 
             var svg = $.ajax('assets/svg/' + levels[state[0] - 1] + '/' + state[1] + '.svg');
-            $.wait(1000).then(function() {
-                $.when(svg, $('#level').fadeOut()).done(function(svgDfr, animationDfr) {
+            $.wait(prevState[0] ? 1000 : 0).then(function() {
+                $.when(svg, $('#level').fadeOut(prevState[0] ? undefined : 0)).done(function(svgDfr, animationDfr) {
                     $('#level').html(document.importNode(svgDfr[0].documentElement, true)).fadeIn(function() {
                         $('body').removeClass('whitenoise-fix');
                     });
@@ -218,7 +218,7 @@ $(function() {
         clearTimeout(whitenoiseTimeout);
         whitenoiseTimeout = setTimeout(function() {
             $('body').removeClass('whitenoise-fix');
-        }, 500)
+        }, 300)
     })
 
     // Do some crazy stuff to make about fade in and out

@@ -298,3 +298,10 @@ footer a:hover {
     stroke: rgba(72, 225, 233, 0.5);
     stroke-width: 5;
 }
+
+@media only all and (max-width: 768px) {
+    #start button { display: none; }
+}
+@media only all and (min-width: 769px) {
+    .error { display: none; }
+}
