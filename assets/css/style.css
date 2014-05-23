@@ -27,14 +27,14 @@ button, .button {
     line-height: 1;
     border: 1px solid #fff;
     padding: 1em 1.5em;
-    background: rgba(184, 103, 146, .6);
+    background: rgba(222, 103, 159, .7);
     letter-spacing: .1em;
     text-decoration: none;
     -webkit-transition: 250ms;
     transition: 250ms;
 }
 button:hover, .button {
-    background: rgba(222, 103, 159, .8);
+    background: rgba(222, 103, 159, .9);
 }
 
 h1 {
@@ -80,11 +80,11 @@ h3.hr { margin: 60px 160px; color: #aaa; font: 300 2em 'Source Code Pro'; }
     position: fixed;
     top: 0; bottom: 0;
     left: 0; right: 0;
-    background: rgba(0,0,0,.75);
+    background: rgba(0,0,0,.6);
     z-index: 50;
 }
 #help {
-    background: rgba(63, 42, 141, .9);
+    background: rgba(2,96,122,.4);
 }
 #explanation .content,
 #help .content {
