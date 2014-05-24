@@ -81,21 +81,21 @@ $(function() {
 
             _pathEnter = function(e) {
                 var info = $(this).data('synaesthetic');
-                console.log('ENTERING: ', info);
+                // console.log('ENTERING: ', info);
                 console.log('PLAY NOTE: ', notes[info.color]);
                 SYNTH( notes[info.color] );
                 console.log('IS NEXT NOTE:', (guesses.length ? guesses.toString() + ',' : '') + notes[info.color] === answers[levels[state[0] - 1]][state[1] - 1].slice(0, guesses.length + 1).toString() ? 'YES' : 'no');
             },
             _pathLeave = function(e) {
                 var info = $(this).data('synaesthetic');
-                console.log('LEAVING: ', info);
+                // console.log('LEAVING: ', info);
                 console.log('------------------------------------------------------------');
             },
             _pathClick = function(e) {
                 var info = $(this).data('synaesthetic'),
                     currentAnswer = answers[levels[state[0] - 1]][state[1] - 1];
 
-                console.log('CLICKING: ', info);
+                // console.log('CLICKING: ', info);
 
                 guesses.push(notes[info.color]);
 
@@ -118,24 +118,6 @@ $(function() {
                 if ( guesses.length === currentAnswer.length ) {
                     GAME.advance();
                 }
-            },
-
-            _playPrevNote = function(force) {
-                var prevState = [state[0], state[1] - 1];
-                if ( prevState[1] <= 0 ) {
-                    prevState[0]--;
-                    prevState[1] = 1;
-                }
-
-                SYNTH( undefined, false );
-                if ( force || $('[data-continue]').length && prevState[0] && state[1] > 1 ) {
-                    var lastAnswer = answers[levels[prevState[0] - 1]][prevState[1] - 1];
-                    SYNTH( lastAnswer[0] );
-                    SYNTH( lastAnswer[1] );
-                    SYNTH( lastAnswer[2] );
-                }
-
-                return prevState;
             };
 
         return {
@@ -145,6 +127,16 @@ $(function() {
             },
             advance: function() {
                 guesses = [];
+
+                SYNTH( undefined, false );
+                if ( $('[data-continue]').length && Math.max(state[0], state[1]) > 1 ) {
+                    SYNTH( undefined, false );
+                    var answer = answers[levels[state[0] - 1]][state[1] - 1];
+                    SYNTH( answer[0] );
+                    SYNTH( answer[1] );
+                    SYNTH( answer[2] );
+                }
+
                 if ( state[1]++ < 3 ) {
                     return GAME.level(_successMessage);
                 }
@@ -156,8 +148,6 @@ $(function() {
 
                 $.cookie('level', state[0]);
                 $.cookie('point', state[1]);
-
-                _playPrevNote(true);
 
                 $('#level').fadeOut(function() {
                     $(this).html($('<img/>').attr('src', image)).fadeIn().one('click', function() {
@@ -180,11 +170,11 @@ $(function() {
 
                 $('body').addClass('whitenoise-fix');
 
-                var prevState = _playPrevNote();
+                var svg = $.ajax('assets/svg/' + levels[state[0] - 1] + '/' + state[1] + '.svg'),
+                    firstRun = $('#level').is(':empty');
 
-                var svg = $.ajax('assets/svg/' + levels[state[0] - 1] + '/' + state[1] + '.svg');
-                $.wait(prevState[0] ? 1000 : 0).then(function() {
-                    $.when(svg, $('#level').fadeOut(prevState[0] ? undefined : 0)).done(function(svgDfr, animationDfr) {
+                $.wait(firstRun ? 0 : 1000).then(function() {
+                    $.when(svg, $('#level').fadeOut(firstRun ? 0 : undefined)).done(function(svgDfr, animationDfr) {
                         $('#level').html(document.importNode(svgDfr[0].documentElement, true)).fadeIn(function() {
                             $('body').removeClass('whitenoise-fix');
                             callback && callback();
@@ -192,6 +182,7 @@ $(function() {
 
                         _generatePathInfo();
                         _scaleSVG();
+                        GAME.help();
                     });
                 });
             },
@@ -212,9 +203,8 @@ $(function() {
                     $('#help button').click(function() {
                         $('body').addClass('whitenoise-fix');
                         $('#help').fadeOut(function() {
-                            $(this).remove();
                             $('#level path').filter(function() {
-                                return answers.jump[0][0] === notes[$(this).data('synaesthetic').color];
+                                return answers[levels[state[0] - 1]][state[1] - 1][0] === notes[$(this).data('synaesthetic').color];
                             }).attr('data-highlight', 'true').first().click();
                             $('body').removeClass('whitenoise-fix');
                         });
@@ -240,6 +230,7 @@ $(function() {
                 return GAME;
             },
             help: function() {
+                clearTimeout(helpTimeout);
                 helpTimeout = setTimeout(function() {
                     if ( ! $('#level').is(':visible') ) {
                         return GAME.help();
