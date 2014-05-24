@@ -51,7 +51,7 @@ var GAME = (function() {
                 'amazing!',
                 'fantastic!'
             ];
-            return messages[ Math.floor(Math.random() * messages.length) ];
+            $('<div class="notice"/>').text(messages[ Math.floor(Math.random() * messages.length) ]).insertBefore('#level');
         },
 
         _generatePathInfo = function() {
@@ -126,9 +126,8 @@ var GAME = (function() {
         },
         advance: function() {
             guesses = [];
-             $('<div class="notice"/>').text(_successMessage).insertBefore('#level');
             if ( state[1]++ < 3 ) {
-                return GAME.level();
+                return GAME.level(_successMessage);
             }
 
             $('#level').fadeOut(function() {
@@ -136,16 +135,16 @@ var GAME = (function() {
                     .fadeIn().one('click', function() {
                         state[0]++;
                         state[1] = 1;
-                        GAME.level();
+                        GAME.level(_successMessage);
                     });
             });
             return GAME;
         },
-        level: function() {
+        level: function(callback) {
             $('body').addClass('level-open');
 
             if ( 'undefined' === typeof levels[state[0] - 1] ) {
-                return GAME.end();
+                return GAME.end(callback);
             }
 
             $('body').addClass('whitenoise-fix');
@@ -169,6 +168,7 @@ var GAME = (function() {
                 $.when(svg, $('#level').fadeOut(prevState[0] ? undefined : 0)).done(function(svgDfr, animationDfr) {
                     $('#level').html(document.importNode(svgDfr[0].documentElement, true)).fadeIn(function() {
                         $('body').removeClass('whitenoise-fix');
+                        callback();
                     });
 
                     _generatePathInfo();
@@ -178,36 +178,42 @@ var GAME = (function() {
         },
         setup: function() {
             $(window).resize(_scaleSVG);
+
             $('#level')
                 .on('mouseenter', 'path', _pathEnter)
                 .on('mouseleave', 'path', _pathLeave)
                 .on('click',      'path', _pathClick);
 
+            $('#help button').click(function() {
+                $('body').addClass('whitenoise-fix');
+                $('#help').fadeOut(function() {
+                    $(this).remove();
+                    $('#level path').filter(function() {
+                        return answers.jump[0][0] === notes[$(this).data('synaesthetic').color];
+                    }).attr('data-highlight', 'true').first().click();
+                    $('body').removeClass('whitenoise-fix');
+                });
+            });
+
             return GAME;
         },
-        end: function() {
+        end: function(callback) {
             $('#level').fadeOut(function() { SYNTH( undefined, false ) });
             $('#final').addClass('open');
             $.ajax('assets/svg/endgame.svg').done(function(data) {
                 $('#final').prepend(document.importNode(data.documentElement, true));
                 _scaleSVG();
+                callback();
             });
 
             return GAME;
         },
         help: function() {
             helpTimeout = setTimeout(function() {
+                if ( ! $('#level').is(':visible') ) {
+                    return GAME.help();
+                }
                 $('#help').fadeIn();
-                $('#help button').click(function() {
-                    $('body').addClass('whitenoise-fix');
-                    $('#help').fadeOut(function() {
-                        $(this).remove();
-                        $('body').removeClass('whitenoise-fix');
-                    });
-                    $('#level path').filter(function() {
-                        return answers.jump[0][0] === notes[$(this).data('synaesthetic').color];
-                    }).attr('data-highlight', 'true').first().click();
-                });
             }, 1000 * 15);
         }
     }
@@ -215,8 +221,19 @@ var GAME = (function() {
 
 $(function() {
     $('#start button').click(function() {
-        $('#explanation').fadeIn();
-        GAME.setup().state(1, 1).level();
+        var _this = this;
+
+        if ( $(this).attr('data-continue') ) {
+            $('body').addClass('level-open whitenoise-fix');
+            $('#level').removeAttr('style').hide().delay(500).fadeIn(function() {
+                $('body').removeClass('whitenoise-fix');
+            });
+        } else {
+            GAME.setup().state(1, 1).level(function() {
+                $(_this).attr('data-continue', 'true').text('CONTINUE');
+            });
+            $('#explanation').fadeIn();
+        }
     });
 
     $('#explanation button').click(function() {
@@ -231,13 +248,13 @@ $(function() {
     });
 
     $('#level-footer h1').click(function() {
+        $(window).scrollTop(0);
         $('#level').hide();
         $('body').removeClass('level-open');
     });
 
     var whitenoiseTimeout;
     $(window).scroll(function() {
-        if ( $('#about.open').length ) return true;
         $('body').addClass('whitenoise-fix');
         clearTimeout(whitenoiseTimeout);
         whitenoiseTimeout = setTimeout(function() {

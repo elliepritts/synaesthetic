@@ -18,7 +18,7 @@ body {
     text-rendering: optimizeLegibility;
 }
 
-.whitenoise-fix, .whitenoise-fix * {
+.whitenoise-fix #level, .whitenoise-fix #level * {
     pointer-events: none;
 }
 
@@ -67,13 +67,13 @@ h3:after { right: 0; }
 h3.hr { margin: 60px 160px; color: #aaa; font: 300 2em 'Source Code Pro'; }
 
 #start {
+    position: absolute;
+    top: 0; bottom: 1.9em;
+    left: 0; right: 0;
     background: linear-gradient(to bottom, rgba(255,255,255,.1) 0%, rgba(0,0,0,.85) 100%), url(../svg/background.svg) top center;
     background-size: cover;
-    height: calc(100% - 1.9em);
-    -webkit-transition: 500ms height, 750ms opacity;
-    transition: 500ms height, 750ms opacity;
-    overflow: hidden;
-    position: relative;
+    -webkit-transition: 750ms;
+    transition: 750ms;
     z-index: 2;
 }
 
@@ -114,9 +114,8 @@ h3.hr { margin: 60px 160px; color: #aaa; font: 300 2em 'Source Code Pro'; }
 }
 
 .level-open #start {
-    position: relative;
-    height: 0;
-    opacity: 0;
+    top: -100%;
+    bottom: 100%;
 }
 #start .content {
     display: inline-block;
@@ -138,13 +137,9 @@ h3.hr { margin: 60px 160px; color: #aaa; font: 300 2em 'Source Code Pro'; }
     z-index: 10;
     background: linear-gradient(to bottom, rgba(0,0,0,.65) 0%, rgba(0,0,0,.85) 100%), url(../svg/about.svg) top center;
     background-size: cover;
-    height: calc(100% - 1.9em);
-    -webkit-transition: 500ms height, 750ms opacity;
-    transition: 500ms height, 750ms opacity;
+    -webkit-transition: 750ms opacity;
+    transition: 750ms opacity;
     overflow-y: auto;
-}
-.level-open #about {
-    height: 100%;
 }
 #about.open {
     opacity: 1;
@@ -255,6 +250,11 @@ footer {
     color: #aaa;
     text-align: center;
     overflow: hidden;
+}
+#footer {
+    position: absolute;
+    left: 0; right: 0;
+    bottom: 0;
 }
 footer, footer * {
     -webkit-transition: 250ms;
