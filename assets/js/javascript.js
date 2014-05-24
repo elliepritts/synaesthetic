@@ -216,8 +216,9 @@ $(function() {
                 }
             })(),
             end: function(callback) {
-                $('#level').fadeOut(function() { SYNTH( undefined, false ) });
+                $('#level, #level-footer').fadeOut(function() { $('#level').empty() });
                 $('#final').addClass('open');
+                $('#final-header').show();
                 $.ajax('assets/svg/endgame.svg').done(function(data) {
                     $('#final').prepend(document.importNode(data.documentElement, true));
                     _scaleSVG();

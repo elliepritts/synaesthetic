@@ -181,6 +181,7 @@ h3.hr { margin: 60px 160px; color: #aaa; font: 300 2em 'Source Code Pro'; }
     -webkit-transition: 400ms;
     transition: 400ms;
     text-align: center;
+    position: relative;
 }
 #final.open {
     opacity: 1;
@@ -223,7 +224,7 @@ h3.hr { margin: 60px 160px; color: #aaa; font: 300 2em 'Source Code Pro'; }
     width: 1000px;
     -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
-    margin: 4em 0 10em 50%;
+    margin: 4em 0 0 50%;
 }
 .wallpapers h3 {
     width: 660px;
@@ -250,8 +251,27 @@ h3.hr { margin: 60px 160px; color: #aaa; font: 300 2em 'Source Code Pro'; }
     font-size: .85em;
     font-style: italic;
 }
+#final-header {
+    display: none;
+    background: #000;
+    position: relative;
+    z-index: 2;
+}
+#final-header div {
+    -webkit-transform: 400ms;
+    transform: 400ms;
+    opacity: 0;
+    padding-bottom: 1em;
+    margin-top: -38px;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+}
+#final-header:hover div {
+    opacity: 1;
+    margin-top: 0;
+}
 
-footer {
+footer, header {
     opacity: .5;
     background: rgba(0, 0, 0, .85);
     font-size: .85em;
@@ -265,12 +285,12 @@ footer {
     left: 0; right: 0;
     bottom: 0;
 }
-footer, footer * {
+footer, footer *, header, header * {
     -webkit-transition: 250ms;
     transition: 250ms;
 }
 
-footer:hover {
+footer:hover, header:hover {
     opacity: 1;
 }
 
@@ -280,14 +300,14 @@ footer:hover {
     opacity: 0;
 }
 
-footer a {
+footer a, header a {
     display: inline-block;
     color: #aaa;
     margin-left: -4px;
     padding: 0 .25em;
     text-decoration: none;
 }
-footer a:hover {
+footer a:hover, header a:hover {
     color: #eee;
 }
 
