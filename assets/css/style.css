@@ -357,8 +357,12 @@ footer a:hover, header a:hover {
 }
 
 @media only all and (max-width: 768px) {
-    .start { display: none; }
+    .start, .reset, .chromeonly { display: none !important; }
 }
 @media only all and (min-width: 769px) {
-    .error { display: none; }
+    .error { display: none !important; }
 }
+
+.chromeonly { display: none; }
+.unsupported .start, .unsupported .reset { display: none !important; }
+.unsupported .chromeonly { display: block; }
