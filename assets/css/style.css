@@ -223,7 +223,7 @@ h3.hr { margin: 60px 160px; color: #aaa; font: 300 2em 'Source Code Pro'; }
     width: 1000px;
     -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
-    margin: 4em 0 0 50%;
+    margin: 4em 0 10em 50%;
 }
 .wallpapers h3 {
     width: 660px;
@@ -291,7 +291,7 @@ footer a:hover {
     color: #eee;
 }
 
-#level-footer { display: none; }
+#level-footer { display: none; position: relative; }
 .level-open #level-footer { display: block; }
 #level-footer h1 { cursor: pointer; }
 
