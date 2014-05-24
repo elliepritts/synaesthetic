@@ -16,7 +16,7 @@ $(function() {
             SYNTH = (function() {
                 var synths = [],
                     currentSynth = 0,
-                    sustainSynth = T('OscGen', { env: T('perc', { ar: true, r: 60 * 60 * 3 }) }).play();
+                    sustainSynth = T('OscGen', { env: T('perc', { ar: true, r: 60 * 60 * 60 }) }).play();
 
                 for ( var i = 0; i < 20; i++ ) {
                     synths.push( T('OscGen', { env: T('perc', { ar: true }) }).play() );
@@ -162,7 +162,7 @@ $(function() {
                 }
 
                 SYNTH( undefined, false );
-                if ( prevState[0] ) {
+                if ( $('[data-continue]').length && prevState[0] ) {
                     var lastAnswer = answers[levels[prevState[0] - 1]][prevState[1] - 1];
                     SYNTH( lastAnswer[0] );
                     SYNTH( lastAnswer[1] );
