@@ -5,8 +5,8 @@ $(function() {
             answers = {
                 'jump':     [[65, 70, 74], [70, 74, 77], [64, 66, 68]],
                 'sf':       [[64, 68, 71], [70, 72, 74], [70, 72, 74]],
-                'vic':      [[68, 70, 72], [64, 66, 68], [70, 72, 74]],
-                'alicante': [[70, 72, 74], [72, 74, 76], [72, 74, 76]],
+                'vic':      [[68, 70, 72], [67, 71, 74], [70, 72, 74]],
+                'alicante': [[70, 74, 77], [72, 74, 76], [72, 76, 79]],
                 'ns':       [[67, 72, 76], [72, 76, 79], [79, 76, 72]]
             },
             guesses = [],
@@ -52,7 +52,9 @@ $(function() {
                     'amazing!',
                     'fantastic!'
                 ];
+                $('.notice').remove()
                 $('<div class="notice"/>').text(messages[ Math.floor(Math.random() * messages.length) ]).insertBefore('#level');
+                $('.notice').remove()
             },
 
             _generatePathInfo = function() {
@@ -293,6 +295,13 @@ $(function() {
         $(window).scrollTop(0);
         $('#level').hide();
         $('body').removeClass('level-open');
+    });
+
+    $('#final-header h1').click(function() {
+        $(window).scrollTop(0);
+        $('#final-header').hide();
+        $('body').removeClass('level-open');
+        $('#final').removeClass('open');
     });
 
     var whitenoiseTimeout;

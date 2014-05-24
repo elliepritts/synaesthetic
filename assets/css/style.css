@@ -314,6 +314,7 @@ footer a:hover, header a:hover {
 #level-footer { display: none; position: relative; }
 .level-open #level-footer { display: block; }
 #level-footer h1 { cursor: pointer; }
+#final-header h1 { cursor: pointer; }
 
 .altj:before {
     content: '∆';
