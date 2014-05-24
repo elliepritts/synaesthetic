@@ -149,10 +149,10 @@ $(function() {
                 $.cookie('level', state[0]);
                 $.cookie('point', state[1]);
 
-                $('#level').fadeOut(function() {
-                    $(this).html($('<img/>').attr('src', image)).fadeIn().one('click', function() {
-                        GAME.level(_successMessage);
-                    });
+                $.wait(500).then(function() {
+                    $('#level').fadeOut(function() {
+                        $(this).html( $('<img/>').attr('src', image).one('click', function() { GAME.level() }) );
+                    }).fadeIn(_successMessage);
                 });
                 return GAME;
             },
@@ -162,7 +162,7 @@ $(function() {
                 $('body').toggleClass('played', state[0] > 1 || state[1] > 1);
 
                 if ( 'undefined' === typeof levels[state[0] - 1] ) {
-                    return GAME.end(callback);
+                    return GAME.end();
                 }
 
                 $.cookie('level', state[0]);
