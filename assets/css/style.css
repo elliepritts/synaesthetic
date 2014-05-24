@@ -18,7 +18,7 @@ body {
     text-rendering: optimizeLegibility;
 }
 
-.whitenoise-fix #level, .whitenoise-fix #level * {
+.whitenoise-fix svg, .whitenoise-fix svg * {
     pointer-events: none;
 }
 

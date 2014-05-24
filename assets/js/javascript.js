@@ -120,7 +120,7 @@ $(function() {
                 }
             },
 
-            _playPrevNote = function() {
+            _playPrevNote = function(force) {
                 var prevState = [state[0], state[1] - 1];
                 if ( prevState[1] <= 0 ) {
                     prevState[0]--;
@@ -128,7 +128,7 @@ $(function() {
                 }
 
                 SYNTH( undefined, false );
-                if ( $('[data-continue]').length && prevState[0] && prevState[1] > 1 ) {
+                if ( force || $('[data-continue]').length && prevState[0] && state[1] > 1 ) {
                     var lastAnswer = answers[levels[prevState[0] - 1]][prevState[1] - 1];
                     SYNTH( lastAnswer[0] );
                     SYNTH( lastAnswer[1] );
@@ -149,17 +149,20 @@ $(function() {
                     return GAME.level(_successMessage);
                 }
 
+                var image = 'assets/svg/' + levels[state[0] - 1] + '/final.jpg';
+
                 state[0]++;
                 state[1] = 1;
 
                 $.cookie('level', state[0]);
                 $.cookie('point', state[1]);
 
-                _playPrevNote();
+                _playPrevNote(true);
 
                 $('#level').fadeOut(function() {
-                    $(this).html($('<img/>').attr('src', 'assets/svg/' + levels[state[0] - 1] + '/final.jpg'))
-                        .fadeIn().one('click', function() { GAME.level(_successMessage) });
+                    $(this).html($('<img/>').attr('src', image)).fadeIn().one('click', function() {
+                        GAME.level(_successMessage);
+                    });
                 });
                 return GAME;
             },
