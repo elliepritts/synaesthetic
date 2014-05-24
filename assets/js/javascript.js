@@ -52,9 +52,8 @@ $(function() {
                     'amazing!',
                     'fantastic!'
                 ];
-                $('.notice').remove()
+                $('.notice').remove();
                 $('<div class="notice"/>').text(messages[ Math.floor(Math.random() * messages.length) ]).insertBefore('#level');
-                $('.notice').remove()
             },
 
             _generatePathInfo = function() {
@@ -299,9 +298,9 @@ $(function() {
 
     $('#final-header h1').click(function() {
         $(window).scrollTop(0);
+        $('#final').removeClass('open');
         $('#final-header').hide();
         $('body').removeClass('level-open');
-        $('#final').removeClass('open');
     });
 
     var whitenoiseTimeout;

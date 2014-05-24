@@ -358,7 +358,11 @@ footer a:hover, header a:hover {
 }
 
 @media only all and (max-width: 768px) {
+    body { font-size: 10px; }
     .start, .reset, .chromeonly { display: none !important; }
+    #start {
+        background-image: linear-gradient(to bottom, rgba(255,255,255,.1) 0%, rgba(0,0,0,.85) 100%), url(../images/mobile-bg.jpg) top center;
+    }
 }
 @media only all and (min-width: 769px) {
     .error { display: none !important; }
