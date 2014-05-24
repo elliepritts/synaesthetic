@@ -244,6 +244,7 @@ $(function() {
         }
     })();
 
+
     $('body').toggleClass('unsupported', !/chrome/i.test(navigator.userAgent));
 
     $('.js-start').click(function() {
