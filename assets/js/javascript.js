@@ -326,6 +326,8 @@ $(function() {
     });
 });
 
+'syna.es' === document.location.hostname && history.replaceState && history.replaceState({}, document.title, '/thetic');
+
 $.wait=function(t){return $.Deferred(function(d){setTimeout(d.resolve,t)}).promise()};
 
 /*
