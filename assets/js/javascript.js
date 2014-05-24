@@ -82,21 +82,21 @@ $(function() {
 
             _pathEnter = function(e) {
                 var info = $(this).data('synaesthetic');
-                // console.log('ENTERING: ', info);
+                console.log('ENTERING: ', info);
                 console.log('PLAY NOTE: ', notes[info.color]);
                 SYNTH( notes[info.color] );
                 console.log('IS NEXT NOTE:', (guesses.length ? guesses.toString() + ',' : '') + notes[info.color] === answers[levels[state[0] - 1]][state[1] - 1].slice(0, guesses.length + 1).toString() ? 'YES' : 'no');
             },
             _pathLeave = function(e) {
                 var info = $(this).data('synaesthetic');
-                // console.log('LEAVING: ', info);
+                console.log('LEAVING: ', info);
                 console.log('------------------------------------------------------------');
             },
             _pathClick = function(e) {
                 var info = $(this).data('synaesthetic'),
                     currentAnswer = answers[levels[state[0] - 1]][state[1] - 1];
 
-                // console.log('CLICKING: ', info);
+                console.log('CLICKING: ', info);
 
                 guesses.push(notes[info.color]);
 
