@@ -27,6 +27,7 @@ button, .button {
     line-height: 1;
     border: 1px solid #fff;
     padding: 1em 1.5em;
+    margin: 0 1em;
     background: rgba(222, 103, 159, .7);
     letter-spacing: .1em;
     text-decoration: none;
@@ -35,6 +36,14 @@ button, .button {
 }
 button:hover, .button {
     background: rgba(222, 103, 159, .9);
+}
+
+.reset {
+    display: none;
+}
+
+.played .reset {
+    display: inline-block;
 }
 
 h1 {
@@ -309,6 +318,9 @@ footer a:hover {
 @-webkit-keyframes slide-up { 100% { -webkit-transform: translateY(-100%); opacity: .4; } }
 @keyframes slide-up { 100% { transform: translateY(-100%); opacity: .4; } }
 
+#level:empty {
+    min-height: 100%;
+}
 #level img {
     cursor: pointer;
 }
@@ -325,7 +337,7 @@ footer a:hover {
 }
 
 @media only all and (max-width: 768px) {
-    #start button { display: none; }
+    .start { display: none; }
 }
 @media only all and (min-width: 769px) {
     .error { display: none; }
