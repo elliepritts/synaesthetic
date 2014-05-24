@@ -303,7 +303,6 @@ footer:hover, header:hover {
 footer a, header a {
     display: inline-block;
     color: #aaa;
-    margin-left: -4px;
     padding: 0 .25em;
     text-decoration: none;
 }
@@ -319,7 +318,7 @@ footer a:hover, header a:hover {
 .altj:before {
     content: '∆';
     display: inline-block;
-    padding: 0 .5em 0 .25em;
+    padding: 0 .5em;
     font-size: .65em;
     vertical-align: 20%;
 }
