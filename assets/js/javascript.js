@@ -1,13 +1,12 @@
 $(function() {
     window.GAME = (function() {
         var state = [0, 0],
-            levels = ['jump', 'sf', 'vic', 'alicante', 'ns'],
+            levels = ['vic', 'sf', 'alicante', 'jump'],
             answers = {
                 'jump':     [[65, 70, 74], [70, 74, 77], [64, 66, 68]],
                 'sf':       [[64, 68, 71], [70, 72, 74], [70, 72, 74]],
                 'vic':      [[68, 70, 72], [67, 71, 74], [70, 72, 74]],
                 'alicante': [[70, 74, 77], [72, 74, 76], [72, 76, 79]],
-                'ns':       [[67, 72, 76], [72, 76, 79], [79, 76, 72]]
             },
             guesses = [],
             notes = {},
@@ -131,11 +130,6 @@ $(function() {
 
                 SYNTH( undefined, false );
                 if ( $('[data-continue]').length && Math.max(state[0], state[1]) > 1 ) {
-                    SYNTH( undefined, false );
-                    var answer = answers[levels[state[0] - 1]][state[1] - 1];
-                    SYNTH( answer[0] );
-                    SYNTH( answer[1] );
-                    SYNTH( answer[2] );
                 }
 
                 if ( state[1]++ < 3 ) {
@@ -179,6 +173,11 @@ $(function() {
                         $('#level').html(document.importNode(svgDfr[0].documentElement, true)).fadeIn(function() {
                             $('body').removeClass('whitenoise-fix');
                             callback && callback();
+                            SYNTH( undefined, false );
+                    var answer = answers[levels[state[0] - 1]][state[1] - 1];
+                    SYNTH( answer[0] );
+                    SYNTH( answer[1] );
+                    SYNTH( answer[2] );
                         });
 
                         _generatePathInfo();
