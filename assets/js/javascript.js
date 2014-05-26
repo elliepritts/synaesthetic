@@ -126,10 +126,13 @@ $(function() {
             },
             advance: function() {
                 guesses = [];
+                GAME.pastFirstLevel = true;
 
                 SYNTH( undefined, false );
-                if ( $('[data-continue]').length && Math.max(state[0], state[1]) > 1 ) {
-                }
+                var answer = answers[levels[state[0] - 1]][state[1] - 1];
+                SYNTH( answer[0] );
+                SYNTH( answer[1] );
+                SYNTH( answer[2] );
 
                 if ( state[1]++ < 3 ) {
                     return GAME.level(_successMessage);
@@ -172,11 +175,15 @@ $(function() {
                         $('#level').html(document.importNode(svgDfr[0].documentElement, true)).fadeIn(function() {
                             $('body').removeClass('whitenoise-fix');
                             callback && callback();
-                            SYNTH( undefined, false );
-                    var answer = answers[levels[state[0] - 1]][state[1] - 1];
-                    SYNTH( answer[0] );
-                    SYNTH( answer[1] );
-                    SYNTH( answer[2] );
+
+                            if ( GAME.pastFirstLevel ) {
+                                $.wait(400).then(function() {
+                                    var answer = answers[levels[state[0] - 1]][state[1] - 1];
+                                    SYNTH( answer[0] );
+                                    SYNTH( answer[1] );
+                                    SYNTH( answer[2] );
+                                })
+                            }
                         });
 
                         _generatePathInfo();
@@ -232,18 +239,23 @@ $(function() {
             help: function() {
                 clearTimeout(helpTimeout);
                 helpTimeout = setTimeout(function() {
-                    if ( ! $('#level').is(':visible') || $('#explanation').is(':visible') ) {
+                    if ( $('#level').not(':visible') || $('#explanation, #level img').is(':visible') ) {
                         return GAME.help();
                     }
                     $('#help').fadeIn();
                 }, 1000 * 15);
             },
+            playFirstChord: function() {
+                var answer = answers[levels[state[0] - 1]][state[1] - 1];
+                SYNTH( answer[0] );
+                SYNTH( answer[1] );
+                SYNTH( answer[2] );
+            },
             pastFirstLevel: $.cookie('level') > 1 || $.cookie('point') > 1
         }
     })();
 
-
-    $('body').toggleClass('unsupported', !/chrome || safari/i.test(navigator.userAgent));
+    $('body').toggleClass('unsupported', !/chrome/i.test(navigator.userAgent));
 
     $('.js-start').click(function() {
         var _this = this;
@@ -277,7 +289,10 @@ $(function() {
 
         setTimeout(function() {
             clearInterval(ellipsis);
-            $('#explanation').fadeOut(function() { $(this).remove() });
+            $('#explanation').fadeOut(function() {
+                $(this).remove();
+                GAME.playFirstChord();
+            });
             if ( ! GAME.pastFirstLevel ) {
                 GAME.help();
             }
