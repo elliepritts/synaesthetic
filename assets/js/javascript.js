@@ -271,7 +271,11 @@ $(function() {
                 $(_this).attr('data-continue', 'true').text('CONTINUE');
             });
             if ( ! GAME.pastFirstLevel ) {
-                $('#explanation').fadeIn();
+                $('#explanation').fadeIn(function() {
+                    $.wait(3600).then(function() {
+                        $('#explanation button').removeClass('disabled').prop('disabled', false).html('let&rsquo;s play');
+                    })
+                });
             }
         }
     });
@@ -281,7 +285,11 @@ $(function() {
         GAME.setup().state(1, 1).level(function() {
             $('.js-start').attr('data-continue', 'true').text('CONTINUE');
         });
-        $('#explanation').fadeIn();
+        $('#explanation').fadeIn(function() {
+            $.wait(3600).then(function() {
+                $('#explanation button').removeClass('disabled').prop('disabled', false).html('let&rsquo;s play');
+            })
+        });
     });
 
     $('#explanation button').click(function() {

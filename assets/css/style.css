@@ -38,6 +38,10 @@ button:hover, .button {
     background: rgba(222, 103, 159, .9);
 }
 
+button.disabled, .button.disabled {
+    opacity: .15;
+}
+
 .reset {
     display: none;
 }
