@@ -233,7 +233,7 @@ $(function() {
             help: function() {
                 clearTimeout(helpTimeout);
                 helpTimeout = setTimeout(function() {
-                    if ( ! $('#level').is(':visible') ) {
+                    if ( ! $('#level').is(':visible') || $('#explanation').is(':visible') ) {
                         return GAME.help();
                     }
                     $('#help').fadeIn();
