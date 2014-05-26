@@ -222,6 +222,7 @@ $(function() {
                 }
             })(),
             end: function(callback) {
+                $('.notice').remove();
                 $('#level, #level-footer').fadeOut(function() { $('#level').empty() });
                 $('#final').addClass('open');
                 $('#final-header').show();
