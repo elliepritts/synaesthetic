@@ -255,7 +255,7 @@ $(function() {
         }
     })();
 
-    $('body').toggleClass('unsupported', !/chrome/i.test(navigator.userAgent));
+    $('body').toggleClass('unsupported', typeof InstallTrigger !== 'undefined');
 
     $('.js-start').click(function() {
         var _this = this;
