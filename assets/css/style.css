@@ -352,7 +352,7 @@ footer a:hover, header a:hover {
     opacity: 1;
 }
 #level svg path[data-highlight] {
-    stroke: rgba(72, 225, 233, 0.5);
+    stroke: rgba(150, 222, 55, 0.5);
     stroke-width: 5;
 }
 
