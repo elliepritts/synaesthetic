@@ -206,6 +206,15 @@ $(function() {
                         .on('mouseleave', 'path', _pathLeave)
                         .on('click',      'path', _pathClick);
 
+                    $(window).keydown(function(e) {
+                    if ( 32 === e.which ) {
+                    var answer = answers[levels[state[0] - 1]][state[1] - 1];
+                    SYNTH( answer[0] );
+                    SYNTH( answer[1] );
+                    SYNTH( answer[2] );
+                        }
+                    })
+
                     $('#help button').click(function() {
                         $('body').addClass('whitenoise-fix');
                         $('#help').fadeOut(function() {
