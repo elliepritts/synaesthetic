@@ -207,7 +207,7 @@ $(function() {
                         .on('click',      'path', _pathClick);
 
                         $(window).keydown(function(e) {
-                            if ( 32 === e.which ) {
+                            if ( 32 === e.which && $('#level').is(':visible') ) {
                                 var answer = answers[levels[state[0] - 1]][state[1] - 1];
                                 SYNTH( answer[0] );
                                 SYNTH( answer[1] );
