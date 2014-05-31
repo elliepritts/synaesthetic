@@ -1,9 +1,8 @@
 all:
-	echo "Building synaesthetic..."
-	@git branch -D build
 	@git checkout -b build
 	@gulp
-	@git commit -am "build"
+	@git add build/* build.html
+	@git commit -m 'build'
 	@git push origin :build
 	@git push origin build
 	@git checkout master
