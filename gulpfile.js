@@ -1,30 +1,29 @@
 var gulp = require('gulp'),
     autoprefixer = require('gulp-autoprefixer'),
     minifycss = require('gulp-minify-css'),
+    removeLogs = require('gulp-removelogs'),
+    replace = require('gulp-replace')
     uglify = require('gulp-uglify'),
     rename = require('gulp-rename'),
     clean = require('gulp-clean'),
     concat = require('gulp-concat'),
-    notify = require('gulp-notify'),
-    cache = require('gulp-cache'),
     processhtml = require('gulp-processhtml');
 
 gulp.task('styles', function() {
     return gulp.src('assets/css/style.css')
-        .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
+        .pipe(autoprefixer('last 2 version'))
         .pipe(rename({suffix: '.min'}))
         .pipe(minifycss())
-        .pipe(gulp.dest('assets/build'))
-        .pipe(notify({ message: 'Styles task complete' }));
+        .pipe(gulp.dest('assets/build'));
 });
 
 gulp.task('scripts', function() {
     return gulp.src('assets/js/*.js')
         .pipe(concat('javascript.min.js'))
-        // .pipe(rename({suffix: '.min'}))
+        .pipe(removeLogs())
+        .pipe(replace(/window\.GAME/g, 'var GAME'))
         .pipe(uglify())
-        .pipe(gulp.dest('assets/build'))
-        .pipe(notify({ message: 'Scripts task complete' }));
+        .pipe(gulp.dest('assets/build'));
 });
 
 gulp.task('clean', function() {
