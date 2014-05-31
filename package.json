@@ -10,7 +10,8 @@
     "gulp-clean": "~0.3.0",
     "gulp-cache": "~0.1.11",
     "gulp-processhtml": "0.0.3",
-    "gulp-removelogs": "0.0.2",
-    "gulp-replace": "~0.3.0"
+    "gulp-strip-debug": "~0.3.0",
+    "gulp-replace": "~0.3.0",
+    "gulp-minify-html": "~0.1.3"
   }
 }
