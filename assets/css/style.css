@@ -224,11 +224,33 @@ h3.hr { margin: 60px 160px; color: #aaa; font: 300 2em 'Source Code Pro'; }
 #final h2 {
     margin-bottom: 3em;
 }
+
+#final ul {
+    list-style: square;
+    text-align: center;
+    list-style-position: inside;
+    text-transform: none;
+    font-size: .95em;
+    margin: 20px auto;
+}
+#final ul li {
+    margin: .5em 0;
+    color: rgba(222, 103, 159, 1);
+}
+
+#final ul a {
+    text-decoration: none;
+}
+
+#final ul a:hover{
+color: rgba(165,234,242,1);
+}
+
 .wallpapers {
     width: 1000px;
     -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
-    margin: 4em 0 0 50%;
+    margin: 2em 0 0 50%;
 }
 .wallpapers h3 {
     width: 660px;
