@@ -222,7 +222,7 @@ h3.hr { margin: 60px 160px; color: #aaa; font: 300 2em 'Source Code Pro'; }
     margin-bottom: 0;
 }
 #final h2 {
-    margin-bottom: 3em;
+    margin-bottom: 1em;
 }
 
 #final ul {
@@ -250,7 +250,7 @@ color: rgba(165,234,242,1);
     width: 1000px;
     -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
-    margin: 2em 0 0 50%;
+    margin: 1em 0 0 50%;
 }
 .wallpapers h3 {
     width: 660px;
