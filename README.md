@@ -1,3 +1,5 @@
+![](https://raw.githubusercontent.com/elliepritts/synaesthetic/master/assets/images/mobile-bg.jpg)
+
 # synaesthetic
 Synaesthetic is a musical puzzle game by [Ellie Pritts](http://elliepritts.com/). Using svg and web audio APIs, an interactive experience pairing color and frequency was created.
 
